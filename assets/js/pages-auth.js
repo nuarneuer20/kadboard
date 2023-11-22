@@ -11,14 +11,10 @@ document.addEventListener('DOMContentLoaded', function (e) {
     if (formAuthentication) {
       const fv = FormValidation.formValidation(formAuthentication, {
         fields: {
-          username: {
+          MobileNumber: {
             validators: {
               notEmpty: {
-                message: 'Please enter username'
-              },
-              stringLength: {
-                min: 6,
-                message: 'Username must be more than 6 characters'
+                message: 'Please enter your mobile number'
               }
             }
           },
@@ -29,17 +25,6 @@ document.addEventListener('DOMContentLoaded', function (e) {
               },
               emailAddress: {
                 message: 'Please enter valid email address'
-              }
-            }
-          },
-          'email-username': {
-            validators: {
-              notEmpty: {
-                message: 'Please enter email / username'
-              },
-              stringLength: {
-                min: 6,
-                message: 'Username must be more than 6 characters'
               }
             }
           },
@@ -54,27 +39,10 @@ document.addEventListener('DOMContentLoaded', function (e) {
               }
             }
           },
-          'confirm-password': {
-            validators: {
-              notEmpty: {
-                message: 'Please confirm password'
-              },
-              identical: {
-                compare: function () {
-                  return formAuthentication.querySelector('[name="password"]').value;
-                },
-                message: 'The password and its confirm are not the same'
-              },
-              stringLength: {
-                min: 6,
-                message: 'Password must be more than 6 characters'
-              }
-            }
-          },
           terms: {
             validators: {
               notEmpty: {
-                message: 'Please agree terms & conditions'
+                message: 'Please agree on Terms & Privacy Policy'
               }
             }
           }

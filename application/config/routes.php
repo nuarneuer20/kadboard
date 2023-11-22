@@ -55,3 +55,11 @@ $route['translate_uri_dashes'] = FALSE;
 
 //ENGLISH
 $route['demo'] = 'demo';
+
+$route['login'] = 'authentication';
+$route['validate'] = 'authentication/login';
+$route['register'] = 'authentication/register';
+$route['registration'] = 'authentication/registration';
+
+$route['terms'] = 'policy/terms';
+$route['privacy'] = 'policy/privacy';
