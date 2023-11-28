@@ -111,7 +111,7 @@ class Checkout extends CI_Controller {
 		      $this->Checkout_model->create_invitation($invite);
 
 					$status    = true;
-					$response  = hashids_encrypt($data['CustomerId']);
+					$response  = hashids_encrypt($data['CustomerId'],'config',8);
 					$errorcode = 200;
 				}
 			}else {
@@ -134,7 +134,7 @@ class Checkout extends CI_Controller {
 		$data = array_merge($this->global_data);
 
 		$data['id'] = $this->uri->segment(2);
-		$id = hashids_decrypt($this->uri->segment(2));
+		$id = hashids_decrypt($this->uri->segment(2),'config',8);
 
 		$data['header'] = $this->load->view('templates/auth-header','',true);
 		$data['footer'] = $this->load->view('templates/auth-footer','',true);

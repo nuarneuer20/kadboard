@@ -39,7 +39,22 @@
 
               <div class="row mb-5">
 
-                <?php foreach ($invitation as $row): ?>
+                <?php foreach ($invitation as $row):
+                  $searchFor  = $row->InvitationId;
+            			$filterbyid =
+            			array_values(array_filter($bride, function($element) use($searchFor){
+            				return isset($element->InvitationId) && $element->InvitationId == $searchFor;
+            			}));
+
+                  if (empty($filterbyid)) {
+                    $title = 'Untitled';
+                  }else {
+                    $title = '';
+                    foreach ($filterbyid as $irow) {
+                      $title .= $irow->BrideName;
+                    }
+                  }
+                ?>
 
                   <div class="col-md-6">
                     <div class="card mb-3">
@@ -52,25 +67,25 @@
                           <div class="card-body">
                             <div class="row mb-4">
                               <div class="col-6">
-                                <a href="<?php echo base_url()."modify/".hashids_encrypt($row->InvitationId); ?>">
+                                <a href="<?php echo base_url()."modify/".hashids_encrypt($row->InvitationId,'config',15); ?>">
                                   <div class="d-grid gap-2">
                                     <button type="button" name="button" class="btn btn-dark">Edit</button>
                                   </div>
                                 </a>
                               </div>
                               <div class="col-6">
-                                <a target="_blank" href="<?php echo base_url()."modify/".hashids_encrypt($row->InvitationId); ?>">
+                                <a target="_blank" href="<?php echo base_url()."invitation/".hashids_encrypt($row->InvitationId,'config',10); ?>">
                                   <div class="d-grid gap-2">
                                     <button type="button" name="button" class="btn btn-dark">View</button>
                                   </div>
                                 </a>
                               </div>
                             </div>
-                            <h5 class="card-title"></h5>
+                            <h5 class="card-title"><?php echo $title; ?></h5>
                             <p class="card-text">
                               Type: Online Wedding Invitation
                             </p>
-                            <p class="card-text"><small class="text-muted">Event date: <?php echo date('d/m/Y', strtotime($row->WeddingDate)); ?></small></p>
+                            <p class="card-text"><small class="text-muted">Event date: <?php echo date('d/m/Y', strtotime($row->WeddingStartDate)); ?></small></p>
                           </div>
                         </div>
                       </div>

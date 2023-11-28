@@ -120,8 +120,12 @@
                           </select>
                         </div>
                         <div class="mb-2">
-                          <label for="defaultFormControlInput" class="form-label">Wedding Date</label>
-                          <input type="date" class="form-control text-center" name="WeddingDate">
+                          <label for="defaultFormControlInput" class="form-label">Wedding Start Date & Time*</label>
+                          <input type="datetime-local" class="form-control text-center" name="WeddingStartDate" value="<?php echo $details->WeddingStartDate; ?>">
+                        </div>
+                        <div class="mb-2">
+                          <label for="defaultFormControlInput" class="form-label">Wedding End Date & Time *</label>
+                          <input type="datetime-local" class="form-control text-center" name="WeddingEndDate" value="<?php echo $details->WeddingEndDate; ?>">
                         </div>
                         <div class="mb-2">
                           <label for="defaultFormControlInput" class="form-label">Wedding Date in Hijri Calendar</label>

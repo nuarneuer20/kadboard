@@ -49,42 +49,49 @@
                       <div class="card-body text-center">
                         <div class="mb-4">
                           <h5 class="mb-0">WALIMATULURUS</h5>
-                          <!-- <small>
-                            <i>* Butiran ini digunakan untuk muka pertama.</i>
-                          </small> -->
+                          <small>
+                            <i>* Press "enter" to add new line.</i>
+                          </small>
                         </div>
-                        <?php if (empty($bride)) { ?>
-
-                        <?php }else { ?>
-
-                        <?php } ?>
-
-
 
 
                         <?php if (empty($bride)) { ?>
                           <div class="mb-2">
                             <label for="defaultFormControlInput" class="form-label">Bride and Groom's Short Names *</label>
-                            <input type="text" class="form-control text-center" name="BrideShortName" placeholder="Adam & Hawa">
+                            <!-- <input type="text" class="form-control text-center" name="BrideShortName" placeholder="Adam & Hawa"> -->
+
+                            <textarea class="form-control text-center" name="BrideShortName" rows="3" placeholder="Adam
+&
+Hawa"></textarea>
                           </div>
 
                           <div class="mb-2">
                             <label for="defaultFormControlInput" class="form-label">Bride and Groom's Full Names *</label>
-                            <input type="text" class="form-control text-center" name="BrideFullName" placeholder="Muhammad Adam Bin Abu Bakar & Siti Hawa Bin Saifuddin">
+                            <!-- <input type="text" class="form-control text-center" name="BrideFullName" placeholder="Muhammad Adam Bin Abu Bakar & Siti Hawa Bin Saifuddin"> -->
+
+                            <textarea class="form-control text-center" name="BrideFullName" rows="3" placeholder="Muhammad Adam Bin Abu Bakar
+&
+Siti Hawa Bin Saifuddin"></textarea>
                           </div>
                         <?php }else { ?>
 
                           <?php foreach ($bride as $row): ?>
                             <div class="mb-2">
                               <label for="defaultFormControlInput" class="form-label">Bride and Groom's Short Names *</label>
-                              <input type="text" class="form-control text-center" name="BrideShortName" placeholder="Adam & Hawa" value="<?php echo $row->BrideName; ?>">
+                              <!-- <input type="text" class="form-control text-center" name="BrideShortName" placeholder="Adam & Hawa" value="<?php echo $row->BrideName; ?>"> -->
+                              <textarea class="form-control text-center" name="BrideShortName" rows="3" placeholder="Adam
+&
+Hawa"><?php echo $row->BrideName; ?></textarea>
                             </div>
                           <?php endforeach; ?>
 
                           <?php foreach ($bride as $row): ?>
                             <div class="mb-2">
                               <label for="defaultFormControlInput" class="form-label">Bride and Groom's Full Names *</label>
-                              <input type="text" class="form-control text-center" name="BrideFullName" placeholder="Muhammad Adam Bin Abu Bakar & Siti Hawa Bin Saifuddin" value="<?php echo $row->BrideFullName; ?>">
+                              <!-- <input type="text" class="form-control text-center" name="BrideFullName" placeholder="Muhammad Adam Bin Abu Bakar & Siti Hawa Bin Saifuddin" value="<?php echo $row->BrideFullName; ?>"> -->
+                              <textarea class="form-control text-center" name="BrideFullName" rows="3" placeholder="Muhammad Adam Bin Abu Bakar
+  &
+  Siti Hawa Bin Saifuddin"><?php echo $row->BrideFullName; ?></textarea>
                             </div>
                           <?php endforeach; ?>
 
@@ -93,13 +100,19 @@
                         <?php if (empty($parent)) { ?>
                           <div class="mb-2">
                             <label for="defaultFormControlInput" class="form-label">Parent's Full Names *</label>
-                            <input type="text" class="form-control text-center" name="ParentName" placeholder="Abu Bakar Bin Abdullah & Yasmin Binti Zainal">
+                            <!-- <input type="text" class="form-control text-center" name="ParentName" placeholder="Abu Bakar Bin Abdullah & Yasmin Binti Zainal"> -->
+                            <textarea class="form-control text-center" name="ParentName" rows="3" placeholder="Abu Bakar Bin Abdullah
+&
+Yasmin Binti Zainal"></textarea>
                           </div>
                         <?php }else { ?>
                           <?php foreach ($parent as $row): ?>
                             <div class="mb-2">
                               <label for="defaultFormControlInput" class="form-label">Parent's Full Names *</label>
-                              <input type="text" class="form-control text-center" name="ParentName" placeholder="Abu Bakar Bin Abdullah & Yasmin Binti Zainal" value="<?php echo $row->ParentName; ?>">
+                              <!-- <input type="text" class="form-control text-center" name="ParentName" placeholder="Abu Bakar Bin Abdullah & Yasmin Binti Zainal" value="<?php echo $row->ParentName; ?>"> -->
+                              <textarea class="form-control text-center" name="ParentName" rows="3" placeholder="Abu Bakar Bin Abdullah
+  &
+  Yasmin Binti Zainal"><?php echo $row->ParentName; ?></textarea>
                             </div>
                           <?php endforeach; ?>
                         <?php } ?>
@@ -121,7 +134,7 @@
                         </div>
                         <div class="mb-2">
                           <label for="defaultFormControlInput" class="form-label">Bismillah</label>
-                          <textarea name="Bismillah" class="form-control text-center">سم الله الرحمن الرحيم</textarea>
+                          <textarea name="Bismillah" class="form-control text-center">بِسْمِ اللهِ الرَّحْمٰنِ الرَّحِيْمِ</textarea>
                         </div>
                         <div class="mb-2">
                           <label for="defaultFormControlInput" class="form-label">Greetings *</label>
@@ -159,8 +172,12 @@ ke majlis perkahwinan anakanda kami<?php } ?></textarea>
                           </select>
                         </div>
                         <div class="mb-2">
-                          <label for="defaultFormControlInput" class="form-label">Wedding Date *</label>
-                          <input type="date" class="form-control text-center" name="WeddingDate" value="<?php echo $details->WeddingDate; ?>">
+                          <label for="defaultFormControlInput" class="form-label">Wedding Start Date & Time*</label>
+                          <input type="datetime-local" class="form-control text-center" name="WeddingStartDate" value="<?php echo $details->WeddingStartDate; ?>">
+                        </div>
+                        <div class="mb-2">
+                          <label for="defaultFormControlInput" class="form-label">Wedding End Date & Time *</label>
+                          <input type="datetime-local" class="form-control text-center" name="WeddingEndDate" value="<?php echo $details->WeddingEndDate; ?>">
                         </div>
                         <div class="mb-2">
                           <label for="defaultFormControlInput" class="form-label">Wedding Date in Hijri Calendar</label>

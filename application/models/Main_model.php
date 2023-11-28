@@ -15,6 +15,12 @@ class Main_model extends CI_Model
     return $query->result();
   }
 
+  function get_invitation_bride($id){
+    $this->db->where_in('InvitationId',$id);
+    $query = $this->db->get('bride');
+    return $query->result();
+  }
+
   function get_invitation_details($id){
     $this->db->join('design','design.DesignId = invitation.DesignId');
     $this->db->where('InvitationId',$id);

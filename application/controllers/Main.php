@@ -41,6 +41,12 @@ class Main extends CI_Controller {
 
     $data['invitation'] = $this->Main_model->get_invitation($data['CustomerId']);
 
+    $invite = [];
+    foreach ($data['invitation'] as $row) {
+      $invite[] = $row->InvitationId;
+    }
+    $data['bride'] = $this->Main_model->get_invitation_bride($invite);
+
 		$this->load->view('main/main',$data);
 	}
 
@@ -48,7 +54,7 @@ class Main extends CI_Controller {
 	{
     $data = array_merge($this->global_data);
 
-    $id = hashids_decrypt($this->uri->segment(2));
+    $id = hashids_decrypt($this->uri->segment(2),'config',15);
 
     $data['header'] = $this->load->view('templates/main-header','',true);
     $data['navbar'] = $this->load->view('templates/main-navbar',$data,true);
@@ -77,7 +83,8 @@ class Main extends CI_Controller {
     $this->form_validation->set_rules('Greetings', 'greetings', 'required');
     $this->form_validation->set_rules('Speech', 'speech', 'required');
     $this->form_validation->set_rules('WeddingDay', 'wedding day', 'required');
-    $this->form_validation->set_rules('WeddingDate', 'wedding  date', 'required');
+    $this->form_validation->set_rules('WeddingStartDate', 'wedding start date', 'required');
+    $this->form_validation->set_rules('WeddingEndDate', 'wedding end date', 'required');
     $this->form_validation->set_rules('WeddingAddress', 'wedding address', 'required');
     $this->form_validation->set_rules('WeddingCoordinate', 'wedding coordinate', 'required');
     $this->form_validation->set_rules('WeddingEvent', 'wedding event', 'required');
@@ -100,6 +107,7 @@ class Main extends CI_Controller {
 
     } else {
       $get = $this->input->post();
+      $get = $this->security->xss_clean($get);
 
       $inviteid = hashids_decrypt($get['InvitationId']);
 
@@ -114,7 +122,8 @@ class Main extends CI_Controller {
         'Greetings'         => $get['Greetings'],
         'Speech'            => $get['Speech'],
         'WeddingDay'        => $get['WeddingDay'],
-        'WeddingDate'       => $get['WeddingDate'],
+        'WeddingStartDate'  => $get['WeddingStartDate'],
+        'WeddingEndDate'    => $get['WeddingEndDate'],
         'WeddingDateHijri'  => $get['WeddingDateHijri'],
         'WeddingAddress'    => $get['WeddingAddress'],
         'WeddingCoordinate' => $get['WeddingCoordinate'],

@@ -72,3 +72,10 @@ $route['save-invitation'] = 'main/save';
 
 $route['terms'] = 'policy/terms';
 $route['privacy'] = 'policy/privacy';
+
+//TYPE
+$route['invitation/(:any)'] = 'view/invitation';
+$route['comment'] = 'view/comment';
+$route['load'] = 'view/load';
+$route['rsvp'] = 'view/rsvp';
+$route['attend'] = 'view/attend';
