@@ -101,8 +101,8 @@
                     <input class="form-check-input" type="checkbox" id="terms-conditions" name="terms" />
                     <label class="form-check-label" for="terms-conditions">
                       By clicking sign up, i agree to the
-                      <a href="javascript:void(0);">Terms and Conditions</a> &
-                      <a href="javascript:void(0);">Privacy Policy</a>
+                      <a target="_blank" href="<?php echo base_url(); ?>terms">Terms and Conditions</a> &
+                      <a target="_blank" href="<?php echo base_url(); ?>privacy">Privacy Policy</a>
                     </label>
                   </div>
                 </div>

@@ -1,16 +1,27 @@
-<script src="<?php echo base_url(); ?>assets/vendor/libs/jquery/jquery.js"></script>
-<script src="<?php echo base_url(); ?>assets/vendor/libs/popper/popper.js"></script>
-<script src="<?php echo base_url(); ?>assets/vendor/js/bootstrap.js"></script>
-<script src="<?php echo base_url(); ?>assets/vendor/libs/node-waves/node-waves.js"></script>
-<script src="<?php echo base_url(); ?>assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
-<script src="<?php echo base_url(); ?>assets/vendor/libs/hammer/hammer.js"></script>
-<script src="<?php echo base_url(); ?>assets/vendor/libs/i18n/i18n.js"></script>
-<script src="<?php echo base_url(); ?>assets/vendor/libs/typeahead-js/typeahead.js"></script>
-<script src="<?php echo base_url(); ?>assets/vendor/js/menu.js"></script>
+<!-- Footer -->
+<footer class="content-footer footer bg-footer-theme">
+  <div class="container-xxl">
+    <div
+      class="footer-container d-flex align-items-center justify-content-between py-2 flex-md-row flex-column">
+      <div>
+        ©
+        <script>
+          document.write(new Date().getFullYear());
+        </script>
+        , made with ❤️ by <a href="https://kadboard.com" target="_blank" class="fw-medium">Kadboard.</a>
+      </div>
+      <div class="d-none d-lg-inline-block">
+        <!-- <a href="https://themeforest.net/licenses/standard" class="footer-link me-4" target="_blank"
+          >License</a
+        >
+        <a href="https://1.envato.market/pixinvent_portfolio" target="_blank" class="footer-link me-4"
+          >More Themes</a
+        > -->
 
-<!-- endbuild -->
-
-<!-- Vendors JS -->
-
-<!-- Main JS -->
-<script src="<?php echo base_url(); ?>assets/js/main.js"></script>
+        <a href="<?php echo base_url(); ?>terms" target="_blank" class="footer-link me-4">Terms & Conditions</a>
+        <a href="<?php echo base_url(); ?>privacy" target="_blank" class="footer-link d-none d-sm-inline-block">Privacy Policy</a>
+      </div>
+    </div>
+  </div>
+</footer>
+<!-- / Footer -->

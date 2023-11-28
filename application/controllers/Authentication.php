@@ -74,6 +74,11 @@ class Authentication extends CI_Controller {
     echo json_encode($result);
   }
 
+  function logout(){
+    $this->session->sess_destroy();
+    redirect();
+  }
+
   public function register()
 	{
     $data = array_merge($this->global_data);

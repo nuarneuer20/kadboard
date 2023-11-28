@@ -79,7 +79,7 @@
       text-align: center;
       background-color: black;
       z-index: 99;
-      background-image: url(<?php echo base_url()."assets/kad/purple-kad.png"; ?>);
+      background-image: url(<?php echo base_url().$design->DesignUrl; ?>);
       background-position: center;
       background-repeat: no-repeat;
       background-size: cover;
@@ -171,7 +171,7 @@
     }
 
     .bg-image{
-      background-image: url(<?php echo base_url()."assets/kad/purple-kad.png"; ?>);
+      background-image: url(<?php echo base_url().$design->DesignUrl; ?>);
       background-position: center;
       background-repeat: no-repeat;
       background-size: cover;
@@ -234,14 +234,14 @@
       padding: 10px;
     }
 
+    .snow {
+      background: <?php echo $design->DesignColor; ?>!important;
+    }
+
     </style>
 
     <!-- Helpers -->
     <script src="<?php echo base_url(); ?>assets/vendor/js/helpers.js"></script>
-    <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
-    <!--? Template customizer: To hide customizer set displayCustomizer value false in config.js.  -->
-    <!-- <script src="<?php echo base_url(); ?>assets/vendor/js/template-customizer.js"></script> -->
-    <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
     <script src="<?php echo base_url(); ?>assets/js/config.js"></script>
   </head>
 

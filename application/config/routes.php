@@ -54,12 +54,21 @@ $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
 
 //ENGLISH
-$route['demo'] = 'demo';
+$route['templates'] = 'landing/templates';
+$route['preview/(:any)'] = 'preview/display';
 
 $route['login'] = 'authentication';
+$route['logout'] = 'authentication/logout';
 $route['validate'] = 'authentication/login';
 $route['register'] = 'authentication/register';
 $route['registration'] = 'authentication/registration';
+
+$route['checkout/(:any)'] = 'checkout/validate';
+$route['payment'] = 'checkout/payment';
+$route['details/(:any)'] = 'checkout/details';
+
+$route['modify/(:any)'] = 'main/modify';
+$route['save-invitation'] = 'main/save';
 
 $route['terms'] = 'policy/terms';
 $route['privacy'] = 'policy/privacy';

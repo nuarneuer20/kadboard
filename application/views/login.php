@@ -100,12 +100,12 @@
                 </div>
               </form>
 
-              <p class="text-center">
+              <!-- <p class="text-center">
                 <span>New on our kadboard?</span>
                 <a href="<?php echo base_url(); ?>register">
                   <span>Create an account</span>
                 </a>
-              </p>
+              </p> -->
 
             </div>
           </div>
@@ -137,7 +137,7 @@
             $('.txt_csrfname').val(data.token);
             if (data.status == true)
             {
-              window.location.href = "<?php echo base_url()."dashboard"; ?>";
+              window.location.href = "<?php echo base_url()."main"; ?>";
             }else{
               notification('black','slideBottomRight','Message',data.message,10000);
             }

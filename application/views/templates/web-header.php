@@ -15,25 +15,22 @@
 <link href="https://fonts.googleapis.com/css2?family=Sen:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
 
-<!-- Icons -->
-<link rel="stylesheet" href="<?php echo base_url(); ?>assets/vendor/fonts/fontawesome.css" />
 <link rel="stylesheet" href="<?php echo base_url(); ?>assets/vendor/fonts/tabler-icons.css" />
-<link rel="stylesheet" href="<?php echo base_url(); ?>assets/vendor/fonts/flag-icons.css" />
 
 <!-- Core CSS -->
-<link rel="stylesheet" href="<?php echo base_url(); ?>assets/vendor/css/rtl/core.css" />
-<link rel="stylesheet" href="<?php echo base_url(); ?>assets/vendor/css/rtl/theme-default.css" />
+<link rel="stylesheet" href="<?php echo base_url(); ?>assets/vendor/css/rtl/core.css" class="template-customizer-core-css" />
+<link rel="stylesheet" href="<?php echo base_url(); ?>assets/vendor/css/rtl/theme-default.css" class="template-customizer-theme-css" />
 <link rel="stylesheet" href="<?php echo base_url(); ?>assets/css/demo.css" />
-
+<link rel="stylesheet" href="<?php echo base_url(); ?>assets/vendor/css/pages/front-page.css" />
 <!-- Vendors CSS -->
 <link rel="stylesheet" href="<?php echo base_url(); ?>assets/vendor/libs/node-waves/node-waves.css" />
-<link rel="stylesheet" href="<?php echo base_url(); ?>assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css" />
-<link rel="stylesheet" href="<?php echo base_url(); ?>assets/vendor/libs/typeahead-js/typeahead.css" />
-<link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>assets/third-party/retro-notify/css/retronotify.css">
+<link rel="stylesheet" href="<?php echo base_url(); ?>assets/vendor/libs/nouislider/nouislider.css" />
+<link rel="stylesheet" href="<?php echo base_url(); ?>assets/vendor/libs/swiper/swiper.css" />
+
 <!-- Page CSS -->
+
+<link rel="stylesheet" href="<?php echo base_url(); ?>assets/vendor/css/pages/front-page-landing.css" />
 
 <!-- Helpers -->
 <script src="<?php echo base_url(); ?>assets/vendor/js/helpers.js"></script>
-<!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
-<!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
-<script src="<?php echo base_url(); ?>assets/js/config.js"></script>
+<script src="<?php echo base_url(); ?>assets/js/front-config.js"></script>
