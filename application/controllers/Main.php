@@ -115,6 +115,7 @@ class Main extends CI_Controller {
       if (isset($get['ShowAttendance'])) { $attend = 1; }else { $attend = 0; }
       if (isset($get['ShowDays'])) { $showday = 1; }else { $showday = 0; }
       if (isset($get['ShowSpeech'])) { $showspeech = 1; }else { $showspeech = 0; }
+      if (isset($get['ShowSnow'])) { $showsnow = 1; }else { $showsnow = 0; }
 
       $invite = [
         'InvitationId'      => $inviteid,
@@ -135,6 +136,7 @@ class Main extends CI_Controller {
         'ShowAttendance'    => $attend,
         'ShowDay'           => $showday,
         'ShowSpeech'        => $showspeech,
+        'ShowSnow'          => $showsnow,
       ];
       $this->Main_model->update_invite($invite);
 

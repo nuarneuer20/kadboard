@@ -63,7 +63,7 @@ body, html {
   text-align: center;
   background-color: black;
   z-index: 99;
-  background-image: url(<?php echo base_url().$details->DesignUrl; ?>);
+  background-image: url(<?php echo base_url().$DesignUrl; ?>);
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
@@ -133,7 +133,7 @@ nav{
 }
 
 .bg-image{
-  background-image: url(<?php echo base_url().$details->DesignUrl; ?>);
+  background-image: url(<?php echo base_url().$DesignUrl; ?>);
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
@@ -198,7 +198,7 @@ li span {
 }
 
 .snow {
-  background: <?php echo $details->DesignColor; ?>!important;
+  background: <?php echo $DesignColor; ?>!important;
 }
 
 </style>

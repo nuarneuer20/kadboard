@@ -376,6 +376,20 @@ Rakan-rakan:
                             <span class="switch-label">Speech (Ucapan)</span>
                           </label>
                         </div>
+                        <div class="mb-2">
+                          <label class="switch switch-success">
+                            <input type="checkbox" class="switch-input" <?php if ($details->ShowSnow == '1') { echo "checked"; } ?> name="ShowSnow">
+                            <span class="switch-toggle-slider">
+                              <span class="switch-on">
+                                <i class="ti ti-check"></i>
+                              </span>
+                              <span class="switch-off">
+                                <i class="ti ti-x"></i>
+                              </span>
+                            </span>
+                            <span class="switch-label">Snow Drop Effect</span>
+                          </label>
+                        </div>
                       </div>
                     </div>
                   </div>

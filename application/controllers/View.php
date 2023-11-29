@@ -23,11 +23,13 @@ class View extends CI_Controller {
 
 		$id = hashids_decrypt($this->uri->segment(2),'config',10);
 
-		$data['details'] = $this->View_model->get_invitation_details($id);
-		$data['bride']   = $this->View_model->get_bride($id);
-    $data['parent']  = $this->View_model->get_parent($id);
-    $data['rsvp']    = $this->View_model->get_rsvp($id);
-    $data['contact'] = $this->View_model->get_contact($id);
+		$data['details']     = $this->View_model->get_invitation_details($id);
+		$data['bride']       = $this->View_model->get_bride($id);
+    $data['parent']      = $this->View_model->get_parent($id);
+    $data['rsvp']        = $this->View_model->get_rsvp($id);
+    $data['contact']     = $this->View_model->get_contact($id);
+		$data['DesignUrl']   = $data['details']->DesignUrl;
+		$data['DesignColor'] = $data['details']->DesignColor;
 
 		$data['WeddingTitle'] = 'MAJLIS PERKHAWINAN ';
 		foreach ($data['bride'] as $row) {

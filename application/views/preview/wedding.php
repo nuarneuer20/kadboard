@@ -408,7 +408,7 @@
         <div class="card-body">
           <div class="row">
             <div class="col-12 text-center">
-              <form id="rsvp-form" action="<?php echo base_url(); ?>rsvp" method="post">
+              <form id="rsvp-form" action="<?php echo base_url(); ?>preview-rsvp" method="post">
                 <input type="text" class="form-control mb-2" name="GuestName" placeholder="Nama *">
                 <input type="text" class="form-control mb-2" name="GuestNumber" placeholder="Nombor Telefon * Cth: 0123456789">
                 <select class="form-control mb-2" id="kehadiran" name="GuestLimit">
@@ -420,7 +420,7 @@
                 <button type="submit" name="button" class="btn btn-dark" id="sahkan">Hantar</button>
                 <button type="button" name="button" class="btn btn-dark" id="batal">Batal</button>
                 <input type="hidden" name="flag" id="flag" value="hadir">
-                <input type="hidden" name="InvitationId" value="<?php echo hashids_encrypt($details->InvitationId); ?>">
+                <input type="hidden" name="PreviewId" value="<?php echo hashids_encrypt($details->PreviewId); ?>">
                 <input type="hidden" class="txt_csrfname" name="<?= $this->security->get_csrf_token_name(); ?>" value="<?= $this->security->get_csrf_hash(); ?>">
               </form>
             </div>
@@ -535,7 +535,7 @@
               <h5>UCAPAN</h5>
             </div>
             <div class="col-12 text-center">
-              <form id="comment-form" action="<?php echo base_url(); ?>comment" method="post">
+              <form id="comment-form" action="<?php echo base_url(); ?>preview-comment" method="post">
                 <div>
                   <input type="text" class="form-control mb-2" name="CommentName" placeholder="Nama Anda *">
                   <textarea class="form-control mb-2" name="Comment" placeholder="Ucapan Anda *"></textarea>
@@ -543,7 +543,7 @@
                     <button type="submit" name="button" class="btn btn-dark">Hantar Sekarang</button>
                   </div>
                 </div>
-                <input type="hidden" name="InvitationId" value="<?php echo hashids_encrypt($details->InvitationId); ?>">
+                <input type="hidden" name="PreviewId" value="<?php echo hashids_encrypt($details->PreviewId); ?>">
                 <input type="hidden" class="txt_csrfname" name="<?= $this->security->get_csrf_token_name(); ?>" value="<?= $this->security->get_csrf_hash(); ?>">
               </form>
             </div>
@@ -742,10 +742,10 @@
       var csrfName   = $('.txt_csrfname').attr('name');
       var csrfHash   = $('.txt_csrfname').val();
 
-      var id = "<?php echo hashids_encrypt($details->InvitationId); ?>";
+      var id = "<?php echo hashids_encrypt($details->PreviewId); ?>";
 
       $.ajax({
-        url		   : "<?php echo base_url();?>load",
+        url		   : "<?php echo base_url();?>preview-load",
         type		 : "POST",
         dataType : "JSON",
         data		 :{id:id, [csrfName]: csrfHash},
@@ -765,10 +765,10 @@
       var csrfName   = $('.txt_csrfname').attr('name');
       var csrfHash   = $('.txt_csrfname').val();
 
-      var id = "<?php echo hashids_encrypt($details->InvitationId); ?>";
+      var id = "<?php echo hashids_encrypt($details->PreviewId); ?>";
 
       $.ajax({
-        url		   : "<?php echo base_url();?>attend",
+        url		   : "<?php echo base_url();?>preview-attend",
         type		 : "POST",
         dataType : "JSON",
         data		 :{id:id, [csrfName]: csrfHash},

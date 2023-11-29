@@ -73,9 +73,16 @@ $route['save-invitation'] = 'main/save';
 $route['terms'] = 'policy/terms';
 $route['privacy'] = 'policy/privacy';
 
-//TYPE
+//Invitation
 $route['invitation/(:any)'] = 'view/invitation';
 $route['comment'] = 'view/comment';
 $route['load'] = 'view/load';
 $route['rsvp'] = 'view/rsvp';
 $route['attend'] = 'view/attend';
+
+//Preview
+$route['preview/(:any)'] = 'preview/invitation';
+$route['preview-comment'] = 'preview/comment';
+$route['preview-load'] = 'preview/load';
+$route['preview-rsvp'] = 'preview/rsvp';
+$route['preview-attend'] = 'preview/attend';
