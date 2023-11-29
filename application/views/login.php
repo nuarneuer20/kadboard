@@ -52,7 +52,7 @@
                         fill="#7367F0" />
                     </svg>
                   </span> -->
-                  <span class="app-brand-text demo text-body fw-bold ms-1">Kadboard.</span>
+                  <span class="app-brand-text demo text-body fw-bold ms-1">kadboard.</span>
                 </a>
               </div>
               <!-- /Logo -->

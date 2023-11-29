@@ -34,6 +34,9 @@ class View extends CI_Controller {
 			$data['WeddingTitle'] .= mb_strtoupper($row->BrideName);
 		}
 
+		$data['header'] = $this->load->view('templates/view-header',$data,true);
+    $data['footer'] = $this->load->view('templates/view-footer','',true);
+
 		$this->load->view('view/wedding',$data);
 	}
 

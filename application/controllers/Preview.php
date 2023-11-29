@@ -20,9 +20,7 @@ class Preview extends CI_Controller {
 	public function display()
 	{
 		$sku = $this->uri->segment(2);
-
 		$data['design'] = $this->Preview_model->get_design($sku);
-
 		$this->load->view('preview',$data);
 	}
 }
