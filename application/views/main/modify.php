@@ -273,7 +273,7 @@ Rakan-rakan:
                           </div>
                           <div class="mb-2">
                             <label for="defaultFormControlInput" class="form-label">Contact Number *</label>
-                            <input type="number" class="form-control text-center" name="ContactNumber" placeholder="0123456789">
+                            <input type="number" class="form-control text-center" name="ContactNumber" placeholder="60123456789">
                           </div>
                         <?php }else { ?>
                           <?php foreach ($contact as $row): ?>
@@ -283,7 +283,7 @@ Rakan-rakan:
                             </div>
                             <div class="mb-2">
                               <label for="defaultFormControlInput" class="form-label">Contact Number *</label>
-                              <input type="number" class="form-control text-center" name="ContactNumber" placeholder="0123456789" value="<?php echo $row->ContactNumber; ?>">
+                              <input type="number" class="form-control text-center" name="ContactNumber" placeholder="60123456789" value="<?php echo $row->ContactNumber; ?>">
                             </div>
                           <?php endforeach; ?>
                         <?php } ?>
@@ -447,13 +447,13 @@ Rakan-rakan:
           if (data.status == true)
           {
             // window.location.href = "<?php echo base_url()."main"; ?>";
-            notification('black','slideBottomRight','Message',data.message,10000);
+            notification('black','slideTopRight','Message',data.message,10000);
           }else{
-            notification('black','slideBottomRight','Message',data.message,10000);
+            notification('black','slideTopRight','Message',data.message,10000);
           }
         },
         error: function(xhr, status, error) {
-          notification('black','slideBottomRight','Message','Something went wrong. Please try again later.',10000);
+          notification('black','slideTopRight','Message','Something went wrong. Please try again later.',10000);
         },
       });
       return false;

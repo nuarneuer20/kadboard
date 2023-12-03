@@ -20,7 +20,7 @@
         <nav class="layout-navbar navbar navbar-expand-xl align-items-center bg-navbar-theme" id="layout-navbar">
           <div class="container-xxl">
             <div class="navbar-brand app-brand demo d-xl-flex py-0 me-4">
-              <a href="<?php echo base_url(); ?>main" class="app-brand-link gap-2">
+              <a href="<?php echo base_url(); ?>" class="app-brand-link gap-2">
                 <span class="app-brand-text demo menu-text fw-bold">Kadboard.</span>
               </a>
             </div>
@@ -122,7 +122,8 @@
                     <script>
                       document.write(new Date().getFullYear());
                     </script>
-                    , made with ❤️ by <a href="https://kadboard.com" target="_blank" class="fw-medium">Kadboard.</a>
+                    <a href="https://kadboard.com" target="_blank" class="fw-medium">Kadboard.</a>
+                    <span class="footer-text">All Right Reserved.</span>
                   </div>
                   <div class="d-none d-lg-inline-block">
                     <a href="<?php echo base_url(); ?>terms" target="_blank" class="footer-link me-4">Terms & Conditions</a>

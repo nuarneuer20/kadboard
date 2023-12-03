@@ -9,6 +9,12 @@
   data-template="front-pages">
   <head>
     <?php echo $header; ?>
+
+    <style media="screen">
+    .landing-hero .hero-animation-img .hero-dashboard-img img {
+      width: 80%!important;
+    }
+    </style>
   </head>
 
   <body>
@@ -56,6 +62,9 @@
               </li>
               <li class="nav-item">
                 <a class="nav-link fw-medium" href="#landingFeatures">Features</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link fw-medium" href="#landingContact">Contact us</a>
               </li>
 							<li class="nav-item">
                 <a class="nav-link fw-medium" href="<?php echo base_url(); ?>templates">Templates</a>
@@ -130,21 +139,21 @@
                 <a href="<?php echo base_url(); ?>templates" class="btn btn-primary btn-lg">Premium Template</a>
               </div>
             </div>
-            <div id="heroDashboardAnimation" class="hero-animation-img">
-              <a href="<?php echo base_url(); ?>demo" target="_blank">
-                <div id="heroAnimationImg" class="position-relative hero-dashboard-img">
+            <div id="heroDashboardAnimation" class="hero-animation-img mt-5">
+              <a href="<?php echo base_url(); ?>templates" target="_blank">
+                <div id="heroAnimationImg" class="position-relative hero-dashboard-img text-center" style="width: 80%;">
                   <img
-                    src="<?php echo base_url(); ?>assets/img/front-pages/landing-page/hero-dashboard-light.png"
+                    src="<?php echo base_url(); ?>assets/kad/landing.png"
                     alt="hero dashboard"
                     class="animation-img"
                     data-app-light-img="front-pages/landing-page/hero-dashboard-light.png"
                     data-app-dark-img="front-pages/landing-page/hero-dashboard-dark.png" />
-                  <img
-                    src="<?php echo base_url(); ?>assets/img/front-pages/landing-page/hero-elements-light.png"
+                  <!-- <img
+                    src="<?php echo base_url(); ?>assets/kad/landing.png"
                     alt="hero elements"
                     class="position-absolute hero-elements-img animation-img top-0 start-0"
                     data-app-light-img="front-pages/landing-page/hero-elements-light.png"
-                    data-app-dark-img="front-pages/landing-page/hero-elements-dark.png" />
+                    data-app-dark-img="front-pages/landing-page/hero-elements-dark.png" /> -->
                 </div>
               </a>
             </div>
@@ -222,10 +231,125 @@
       </section>
       <!-- Useful features: End -->
 
+      <section id="landingContact" class="section-py bg-body landing-contact">
+        <div class="container">
+          <div class="text-center mb-3 pb-1">
+            <span class="badge bg-label-primary">Contact US</span>
+          </div>
+          <h3 class="text-center mb-1"><span class="section-title">Let's work</span> together</h3>
+          <p class="text-center mb-4 mb-lg-5 pb-md-3">Any question or remark? just write us a message</p>
+          <div class="row gy-4">
+            <div class="col-lg-5">
+              <div class="contact-img-box position-relative border p-2 h-100">
+                <img
+                  src="<?php echo base_url(); ?>assets/kad/support.jpg"
+                  alt="contact customer service"
+                  class="contact-img w-100 scaleX-n1-rtl" />
+                <div class="pt-3 px-4 pb-1">
+                  <div class="row gy-3 gx-md-4">
+                    <div class="col-md-6 col-lg-12 col-xl-6">
+                      <div class="d-flex align-items-center">
+                        <div class="badge bg-label-primary rounded p-2 me-2"><i class="ti ti-mail ti-sm"></i></div>
+                        <div>
+                          <p class="mb-0">Email</p>
+                          <h5 class="mb-0">
+                            <a href="mailto:hi@kadboard.com" class="text-heading">hi@kadboard.com</a>
+                          </h5>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- <div class="col-md-6 col-lg-12 col-xl-6">
+                      <div class="d-flex align-items-center">
+                        <div class="badge bg-label-success rounded p-2 me-2">
+                          <i class="ti ti-phone-call ti-sm"></i>
+                        </div>
+                        <div>
+                          <p class="mb-0">Phone</p>
+                          <h5 class="mb-0"><a href="tel:+1234-568-963" class="text-heading">+1234 568 963</a></h5>
+                        </div>
+                      </div>
+                    </div> -->
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-7">
+              <div class="card">
+                <div class="card-body">
+                  <h4 class="mb-1">Send a message</h4>
+                  <p class="mb-4">
+                    If you would like to discuss anything related to payment, account, licensing,<br
+                      class="d-none d-lg-block" />
+                    or have pre-sales questions, you’re at the right place.
+                  </p>
+                  <form id="contact-form" action="<?php echo base_url(); ?>contact" method="post">
+                    <div class="row g-3">
+                      <div class="col-md-6">
+                        <label class="form-label" for="contact-form-fullname">Full Name</label>
+                        <input type="text" class="form-control" id="contact-form-fullname" name="Name" placeholder="Your name" />
+                      </div>
+                      <div class="col-md-6">
+                        <label class="form-label" for="contact-form-email">Email</label>
+                        <input
+                          type="text"
+                          id="contact-form-email"
+                          name="Email"
+                          class="form-control"
+                          placeholder="your@gmail.com" />
+                      </div>
+                      <div class="col-12">
+                        <label class="form-label" for="contact-form-message">Message</label>
+                        <textarea
+                          id="contact-form-message"
+                          class="form-control"
+                          name="Message"
+                          rows="8"
+                          placeholder="Write a message"></textarea>
+                      </div>
+                      <div class="col-12">
+                        <input type="hidden" class="txt_csrfname" name="<?= $this->security->get_csrf_token_name(); ?>" value="<?= $this->security->get_csrf_hash(); ?>">
+                        <button type="submit" class="btn btn-primary">Send Message</button>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
     </div>
 
     <!-- / Sections:End -->
 
     <?php echo $footer; ?>
+
+    <script type="text/javascript">
+    $("#contact-form").unbind('submit').bind('submit', function() {
+      var form = $(this);
+      $.ajax({
+        url: form.attr('action'),
+        type: form.attr('method'),
+        data: form.serialize(),
+        dataType: 'json',
+        success:function(data)
+        {
+          $('.txt_csrfname').val(data.token);
+          if (data.status == true)
+          {
+            $("#contact-form")[0].reset();
+            notification('black','slideBottomRight','Message',data.message,10000);
+          }else{
+            notification('black','slideBottomRight','Message',data.message,10000);
+          }
+        },
+        error: function(xhr, status, error) {
+          notification('black','slideBottomRight','Message','Something went wrong. Please try again later.',10000);
+        },
+      });
+      return false;
+    });
+    </script>
   </body>
 </html>

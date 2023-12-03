@@ -697,13 +697,13 @@
             $('#box-1').slideToggle();
             $('#box-1-1').slideToggle();
             $("#rsvp-form")[0].reset()
-            notification('black','slideBottomRight','Message',data.message,10000);
+            // notification('black','slideBottomRight','Message',data.message,10000);
           }else{
-            notification('black','slideBottomRight','Message',data.message,10000);
+            // notification('black','slideBottomRight','Message',data.message,10000);
           }
         },
         error: function(xhr, status, error) {
-          notification('black','slideBottomRight','Message','Something went wrong. Please try again later.',10000);
+          // notification('black','slideBottomRight','Message','Something went wrong. Please try again later.',10000);
         },
       });
       return false;
@@ -723,14 +723,14 @@
           {
             load_comment();
             $('#box-6').slideToggle();
-            $("#comment-form")[0].reset()
-            notification('black','slideBottomRight','Message',data.message,10000);
+            $("#comment-form")[0].reset();
+            // notification('black','slideBottomRight','Message',data.message,10000);
           }else{
-            notification('black','slideBottomRight','Message',data.message,10000);
+            // notification('black','slideBottomRight','Message',data.message,10000);
           }
         },
         error: function(xhr, status, error) {
-          notification('black','slideBottomRight','Message','Something went wrong. Please try again later.',10000);
+          // notification('black','slideBottomRight','Message','Something went wrong. Please try again later.',10000);
         },
       });
       return false;

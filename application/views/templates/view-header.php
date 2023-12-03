@@ -31,6 +31,18 @@
 <link rel="stylesheet" href="<?php echo base_url(); ?>assets/third-party/snow/snow.css" />
 <link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>assets/third-party/retro-notify/css/retronotify.css">
 
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-MJ028CFBL2"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-MJ028CFBL2');
+</script>
+
+
 <style media="screen">
 
 html {

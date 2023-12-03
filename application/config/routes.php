@@ -54,6 +54,7 @@ $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
 
 //ENGLISH
+$route['contact'] = 'landing/contact';
 $route['templates'] = 'landing/templates';
 $route['preview/(:any)'] = 'preview/display';
 

@@ -39,7 +39,7 @@
 
               <div class="row mb-5">
 
-                <?php foreach ($invitation as $row):
+                <?php $i=1; foreach ($invitation as $row):
                   $searchFor  = $row->InvitationId;
             			$filterbyid =
             			array_values(array_filter($bride, function($element) use($searchFor){
@@ -54,13 +54,19 @@
                       $title .= $irow->BrideName;
                     }
                   }
+
+                  if ($row->WeddingStartDate == null) {
+                    $date = 'Not set';
+                  }else {
+                    $date = date('d/m/Y', strtotime($row->WeddingStartDate));
+                  }
                 ?>
 
                   <div class="col-md-6">
                     <div class="card mb-3">
                       <div class="row g-0">
                         <div class="col-md-4">
-                          <img class="card-img card-img-left" style="object-fit: cover;" src="<?php echo base_url().$row->DesignUrl; ?>" alt="Card image" height="230px">
+                          <img class="card-img card-img-left" style="object-fit: cover;" src="<?php echo base_url().$row->DesignUrl; ?>" alt="Card image" height="255px">
                         </div>
 
                         <div class="col-md-8">
@@ -76,23 +82,29 @@
                               <div class="col-6">
                                 <a target="_blank" href="<?php echo base_url()."invitation/".hashids_encrypt($row->InvitationId,'config',10); ?>">
                                   <div class="d-grid gap-2">
-                                    <button type="button" name="button" class="btn btn-dark">View</button>
+                                    <button type="button" name="button" class="btn btn-dark">View Invitation</button>
                                   </div>
                                 </a>
+                              </div>
+                              <div class="col-12 mt-2">
+                                <div class="d-grid gap-2">
+                                  <input type="hidden" id="link-<?php echo $i; ?>" value="<?php echo base_url()."invitation/".hashids_encrypt($row->InvitationId,'config',10); ?>">
+                                  <button type="button" name="button" class="btn btn-dark copy" data-id="<?php echo $i; ?>">Copy Invitation Link</button>
+                                </div>
                               </div>
                             </div>
                             <h5 class="card-title"><?php echo $title; ?></h5>
                             <p class="card-text">
                               Type: Online Wedding Invitation
                             </p>
-                            <p class="card-text"><small class="text-muted">Event date: <?php echo date('d/m/Y', strtotime($row->WeddingStartDate)); ?></small></p>
+                            <p class="card-text"><small class="text-muted">Event date: <?php echo $date; ?></small></p>
                           </div>
                         </div>
                       </div>
                     </div>
                   </div>
 
-                <?php endforeach; ?>
+                <?php $i++; endforeach; ?>
 
               </div>
 
@@ -118,5 +130,18 @@
     <!--/ Layout wrapper -->
 
     <?php echo $bottom; ?>
+
+    <script type="text/javascript">
+    $('.copy').on('click', function(){
+      var id = $(this).data('id');
+      var copyText = document.getElementById("link-"+id);
+      copyText.type = 'text';
+      copyText.select();
+      document.execCommand("copy");
+      copyText.type = 'hidden';
+
+      alert('Link has been copied');
+    });
+    </script>
   </body>
 </html>

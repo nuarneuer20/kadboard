@@ -101,7 +101,10 @@
                 <a class="nav-link fw-medium" href="<?php echo base_url(); ?>">Home</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link fw-medium" href="<?php echo base_url(); ?>">Features</a>
+                <a class="nav-link fw-medium" href="<?php echo base_url(); ?>#landingFeatures">Features</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link fw-medium" href="<?php echo base_url(); ?>#landingContact">Contact Us</a>
               </li>
 							<li class="nav-item active">
                 <a class="nav-link fw-medium" aria-current="page" href="<?php echo base_url(); ?>templates">Templates</a>

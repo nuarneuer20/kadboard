@@ -45,7 +45,7 @@ class Checkout extends CI_Controller {
 
     $this->form_validation->set_rules('Name', 'name', 'required');
     $this->form_validation->set_rules('Email', 'email', 'required|is_unique[customer.Email]',
-			array('is_unique' => 'Email already exist. Please use another email')
+			array('is_unique' => 'Email already exist. Please login to your account')
 		);
 		$this->form_validation->set_rules('MobileNumber', 'mobile number', 'required');
 		$this->form_validation->set_rules('Coupon', 'coupon', 'required');

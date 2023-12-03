@@ -8,7 +8,8 @@
         <script>
           document.write(new Date().getFullYear());
         </script>
-        , made with ❤️ by <a href="https://kadboard.com" target="_blank" class="fw-medium">Kadboard.</a>
+        <a href="https://kadboard.com" target="_blank" class="fw-medium">Kadboard.</a>
+        <span class="footer-text">All Right Reserved.</span>
       </div>
       <div class="d-none d-lg-inline-block">
         <!-- <a href="https://themeforest.net/licenses/standard" class="footer-link me-4" target="_blank"
