@@ -44,11 +44,40 @@ class Preview extends CI_Controller {
 		$this->load->view('preview/wedding',$data);
 	}
 
+	function akikah()
+	{
+		$data = array_merge($this->global_data);
+
+		$sku = $this->uri->segment(3);
+		$id  = 2;
+
+		$data['design']      = $this->Preview_model->get_design($sku);
+		$data['details']     = $this->Preview_model->get_invitation_details($id);
+		$data['bride']       = $this->Preview_model->get_bride($id);
+    $data['parent']      = $this->Preview_model->get_parent($id);
+    $data['rsvp']        = $this->Preview_model->get_rsvp($id);
+    $data['contact']     = $this->Preview_model->get_contact($id);
+		$data['DesignUrl']   = $data['design']->DesignUrl;
+		$data['DesignColor'] = $data['design']->DesignColor;
+		// $data['DesignUrl']   = 'design/akikah/KBDA0001.webp';
+		// $data['DesignColor'] = '#d17873';
+
+		$data['WeddingTitle'] = 'MAJLIS AQIQAH & KESYUKURAN ';
+		foreach ($data['bride'] as $row) {
+			$data['WeddingTitle'] .= mb_strtoupper($row->BrideName);
+		}
+
+		$data['header'] = $this->load->view('templates/akikah-header',$data,true);
+    $data['footer'] = $this->load->view('templates/akikah-footer','',true);
+
+		$this->load->view('preview/akikah',$data);
+	}
+
 	function comment(){
     $data = array_merge($this->global_data);
 
     $this->form_validation->set_rules('CommentName', 'comment name', 'required',array(
-        'required'     => 'Sili isi nama anda'
+        'required'     => 'Sila isi nama anda'
       )
 		);
     $this->form_validation->set_rules('Comment', 'comment', 'required',array(

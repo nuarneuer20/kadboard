@@ -109,6 +109,43 @@
 							<li class="nav-item active">
                 <a class="nav-link fw-medium" aria-current="page" href="<?php echo base_url(); ?>templates">Templates</a>
               </li>
+              <li class="nav-item mega-dropdown">
+                <a href="javascript:void(0);" class="nav-link dropdown-toggle navbar-ex-14-mega-dropdown mega-dropdown fw-medium" aria-expanded="false" data-bs-toggle="mega-dropdown" data-trigger="hover">
+                  <span data-i18n="Pages">Kad Digital</span>
+                </a>
+                <div class="dropdown-menu p-4">
+                  <div class="row gy-4">
+                    <div class="col-2 col-lg">
+                      <ul class="nav flex-column">
+                        <li class="nav-item">
+                          <a class="nav-link mega-dropdown-link" href="pricing-page.html">
+                            <i class="ti ti-circle me-1"></i>
+                            <span data-i18n="Kad Kahwin/Nikah">Kad Majlis Tunang/Nikah</span>
+                          </a>
+                        </li>
+                        <li class="nav-item">
+                          <a class="nav-link mega-dropdown-link" href="payment-page.html">
+                            <i class="ti ti-circle me-1"></i>
+                            <span data-i18n="Kad Akikah">Kad Majlis Akikah</span>
+                          </a>
+                        </li>
+                        <li class="nav-item">
+                          <a class="nav-link mega-dropdown-link" href="checkout-page.html">
+                            <i class="ti ti-circle me-1"></i>
+                            <span data-i18n="Kad Majlis Hari Jadi">Kad Majlis Hari Jadi</span>
+                          </a>
+                        </li>
+                        <li class="nav-item">
+                          <a class="nav-link mega-dropdown-link" href="help-center-landing.html">
+                            <i class="ti ti-circle me-1"></i>
+                            <span data-i18n="Kad Masjlis Hari Raya">Kad Majlis Hari Raya</span>
+                          </a>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </li>
             </ul>
           </div>
           <div class="landing-menu-overlay d-lg-none"></div>
@@ -177,7 +214,7 @@
                       <img class="phone" src="<?php echo base_url().$row->DesignUrl; ?>" alt="iPhone Mockup">
                       <div class="button-container">
                         <h6 class="mb-5">
-                          <strong><?php echo $row->DesignSku; ?></strong>
+                          <strong style="color: <?php echo $row->TitleColor; ?>;"><?php echo $row->DesignSku; ?></strong>
                         </h6>
                         <a href="<?php echo base_url(); ?>checkout/<?php echo $row->DesignSku; ?>">
                           <div class="d-grid gap-2 mb-2">

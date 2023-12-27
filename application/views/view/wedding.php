@@ -15,6 +15,14 @@
     <meta name="description" content="" />
 
     <?php echo $header; ?>
+
+    <style media="screen">
+      .title-color{
+        color: <?php echo $details->TitleColor; ?>!important;
+      }
+
+      .sepia { filter: invert(1%) sepia(1%) saturate(1%) hue-rotate(1deg) brightness(1000%) contrast(80%); }
+    </style>
   </head>
 
   <body>
@@ -227,11 +235,11 @@
 
     <div id="start" class="start">
       <div class="inside">
-        <h5 class="mb-4">WALIMATULURUS</h5>
+        <h5 class="mb-4 title-color">WALIMATULURUS</h5>
         <?php foreach ($bride as $row): ?>
-          <h6 class="wedding-font wedding-title"><?php echo nl2br($row->BrideName); ?></h6>
+          <h6 class="wedding-font wedding-title title-color"><?php echo nl2br(ucwords(strtolower($row->BrideName))); ?></h6>
         <?php endforeach; ?>
-        <small>
+        <small class="title-color">
           <i>*Kad undangan ini mengandungi lagu.</i>
         </small>
         <br>
@@ -243,16 +251,16 @@
 
       <div class="bg-image">
         <div class="introduction text-center">
-          <h5 class="mb-4">WALIMATULURUS</h5>
-          <img src="<?php echo base_url()."assets/kad/top-leaf.png"; ?>" width="50%" style="padding: 15px;">
+          <h5 class="mb-4 title-color">WALIMATULURUS</h5>
+          <img class="<?php if($details->TitleColor == '#ffffff'){ echo "sepia"; } ?>" src="<?php echo base_url()."assets/kad/top-leaf.png"; ?>" width="50%" style="padding: 15px;">
           <?php foreach ($bride as $row): ?>
-            <h6 class="wedding-font wedding-title"><?php echo nl2br($row->BrideName); ?></h6>
+            <h6 class="wedding-font wedding-title title-color"><?php echo nl2br(ucwords(strtolower($row->BrideName))); ?></h6>
           <?php endforeach; ?>
-          <img src="<?php echo base_url()."assets/kad/bot-leaf.png"; ?>" width="50%" style="padding: 15px;">
-          <h6><?php echo mb_strtoupper($details->WeddingDay); ?></h6>
-          <h6><?php echo date('d.m.Y',strtotime($details->WeddingStartDate)); ?></h6>
+          <img class="<?php if($details->TitleColor == '#ffffff'){ echo "sepia"; } ?>" src="<?php echo base_url()."assets/kad/bot-leaf.png"; ?>" width="50%" style="padding: 15px;">
+          <h6 class="title-color"><?php echo mb_strtoupper($details->WeddingDay); ?></h6>
+          <h6 class="title-color"><?php echo date('d.m.Y',strtotime($details->WeddingStartDate)); ?></h6>
           <?php if ($details->WeddingDateHijri != "" || $details->WeddingDateHijri != "-"): ?>
-            <h6><?php echo mb_strtoupper($details->WeddingDateHijri); ?></h6>
+            <h6 class="title-color"><?php echo mb_strtoupper($details->WeddingDateHijri); ?></h6>
           <?php endif; ?>
         </div>
       </div>
@@ -378,6 +386,8 @@
 
           </div>
         <?php endif; ?>
+
+        <p class="text-center mt-2"> <strong>Ingin kad seperti ini?</strong> <br> Dapatkan sekarang di <a href="<?php echo base_url(); ?>" target="_blank">kadboard.com</a> </p>
 
       </div>
 

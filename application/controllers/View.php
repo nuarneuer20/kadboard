@@ -31,15 +31,27 @@ class View extends CI_Controller {
 		$data['DesignUrl']   = $data['details']->DesignUrl;
 		$data['DesignColor'] = $data['details']->DesignColor;
 
-		$data['WeddingTitle'] = 'MAJLIS PERKHAWINAN ';
-		foreach ($data['bride'] as $row) {
-			$data['WeddingTitle'] .= mb_strtoupper($row->BrideName);
+		if ($data['details']->InvitationTypeId == 1) {
+			$data['WeddingTitle'] = 'MAJLIS PERKHAWINAN ';
+			foreach ($data['bride'] as $row) {
+				$data['WeddingTitle'] .= mb_strtoupper($row->BrideName);
+			}
+
+			$data['header'] = $this->load->view('templates/view-header',$data,true);
+	    $data['footer'] = $this->load->view('templates/view-footer','',true);
+
+			$this->load->view('view/wedding',$data);
+		}else {
+			$data['WeddingTitle'] = 'MAJLIS AQIQAH ';
+			foreach ($data['bride'] as $row) {
+				$data['WeddingTitle'] .= mb_strtoupper($row->BrideName);
+			}
+
+			$data['header'] = $this->load->view('templates/akikah-header',$data,true);
+	    $data['footer'] = $this->load->view('templates/akikah-footer','',true);
+
+			$this->load->view('view/akikah',$data);
 		}
-
-		$data['header'] = $this->load->view('templates/view-header',$data,true);
-    $data['footer'] = $this->load->view('templates/view-footer','',true);
-
-		$this->load->view('view/wedding',$data);
 	}
 
 	function comment(){

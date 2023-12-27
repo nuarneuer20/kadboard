@@ -9,6 +9,7 @@ class Landing_model extends CI_Model
 	}
 
   function design(){
+    $this->db->where('DesignTypeId',1);
     $query = $this->db->get('design');
     return $query->result();
   }

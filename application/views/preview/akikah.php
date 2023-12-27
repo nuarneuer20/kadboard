@@ -235,12 +235,12 @@
 
     <div id="start" class="start">
       <div class="inside">
-        <h5 class="mb-4 title-color">WALIMATULURUS</h5>
+        <h5 class="mb-4 title-color">MAJLIS AQIQAH & KESYUKURAN</h5>
         <?php foreach ($bride as $row): ?>
           <h6 class="wedding-font wedding-title title-color"><?php echo nl2br(ucwords(strtolower($row->BrideName))); ?></h6>
         <?php endforeach; ?>
         <small class="title-color">
-          <i>*Kad undangan ini mengandungi lagu.</i>
+          <i>*Kad jemputan ini mengandungi lagu.</i>
         </small>
         <br>
         <button type="button" name="button" class="btn btn-dark mt-4" id="opening">BUKA</button>
@@ -251,16 +251,16 @@
 
       <div class="bg-image">
         <div class="introduction text-center">
-          <h5 class="mb-4 title-color">WALIMATULURUS</h5>
-          <img class="<?php if($design->TitleColor == '#ffffff'){ echo "sepia"; } ?>" src="<?php echo base_url()."assets/kad/top-leaf.png"; ?>" width="50%" style="padding: 15px;">
+          <h5 class="mb-4 title-color">MAJLIS AQIQAH & KESYUKURAN</h5>
+          <!-- <img class="<?php if($design->TitleColor == '#ffffff'){ echo "sepia"; } ?>" src="<?php echo base_url()."assets/kad/top-leaf.png"; ?>" width="50%" style="padding: 15px;"> -->
           <?php foreach ($bride as $row): ?>
             <h6 class="wedding-font wedding-title title-color"><?php echo nl2br(ucwords(strtolower($row->BrideName))); ?></h6>
           <?php endforeach; ?>
-          <img class="<?php if($design->TitleColor == '#ffffff'){ echo "sepia"; } ?>" src="<?php echo base_url()."assets/kad/bot-leaf.png"; ?>" width="50%" style="padding: 15px;">
+          <!-- <img class="<?php if($design->TitleColor == '#ffffff'){ echo "sepia"; } ?>" src="<?php echo base_url()."assets/kad/bot-leaf.png"; ?>" width="50%" style="padding: 15px;"> -->
           <h6 class="title-color"><?php echo mb_strtoupper($details->WeddingDay); ?></h6>
           <h6 class="title-color"><?php echo date('d.m.Y',strtotime($details->WeddingStartDate)); ?></h6>
           <?php if ($details->WeddingDateHijri != "" || $details->WeddingDateHijri != "-"): ?>
-            <h6 class="title-color"><?php echo mb_strtoupper($details->WeddingDateHijri); ?></h6>
+            <!-- <h6 class="title-color"><?php echo mb_strtoupper($details->WeddingDateHijri); ?></h6> -->
           <?php endif; ?>
         </div>
       </div>

@@ -18,7 +18,7 @@
 
     <style media="screen">
       .title-color{
-        color: <?php echo $design->TitleColor; ?>!important;
+        color: <?php echo $details->TitleColor; ?>!important;
       }
 
       .sepia { filter: invert(1%) sepia(1%) saturate(1%) hue-rotate(1deg) brightness(1000%) contrast(80%); }
@@ -235,7 +235,7 @@
 
     <div id="start" class="start">
       <div class="inside">
-        <h5 class="mb-4 title-color">WALIMATULURUS</h5>
+        <h5 class="mb-4 title-color">MAJLIS AQIQAH & KESYUKURAN</h5>
         <?php foreach ($bride as $row): ?>
           <h6 class="wedding-font wedding-title title-color"><?php echo nl2br(ucwords(strtolower($row->BrideName))); ?></h6>
         <?php endforeach; ?>
@@ -251,12 +251,12 @@
 
       <div class="bg-image">
         <div class="introduction text-center">
-          <h5 class="mb-4 title-color">WALIMATULURUS</h5>
-          <img class="<?php if($design->TitleColor == '#ffffff'){ echo "sepia"; } ?>" src="<?php echo base_url()."assets/kad/top-leaf.png"; ?>" width="50%" style="padding: 15px;">
+          <h5 class="mb-4 title-color">MAJLIS AQIQAH & KESYUKURAN</h5>
+          <!-- <img class="<?php if($details->TitleColor == '#ffffff'){ echo "sepia"; } ?>" src="<?php echo base_url()."assets/kad/top-leaf.png"; ?>" width="50%" style="padding: 15px;"> -->
           <?php foreach ($bride as $row): ?>
             <h6 class="wedding-font wedding-title title-color"><?php echo nl2br(ucwords(strtolower($row->BrideName))); ?></h6>
           <?php endforeach; ?>
-          <img class="<?php if($design->TitleColor == '#ffffff'){ echo "sepia"; } ?>" src="<?php echo base_url()."assets/kad/bot-leaf.png"; ?>" width="50%" style="padding: 15px;">
+          <!-- <img class="<?php if($details->TitleColor == '#ffffff'){ echo "sepia"; } ?>" src="<?php echo base_url()."assets/kad/bot-leaf.png"; ?>" width="50%" style="padding: 15px;"> -->
           <h6 class="title-color"><?php echo mb_strtoupper($details->WeddingDay); ?></h6>
           <h6 class="title-color"><?php echo date('d.m.Y',strtotime($details->WeddingStartDate)); ?></h6>
           <?php if ($details->WeddingDateHijri != "" || $details->WeddingDateHijri != "-"): ?>
@@ -418,7 +418,7 @@
         <div class="card-body">
           <div class="row">
             <div class="col-12 text-center">
-              <form id="rsvp-form" action="<?php echo base_url(); ?>preview-rsvp" method="post">
+              <form id="rsvp-form" action="<?php echo base_url(); ?>rsvp" method="post">
                 <input type="text" class="form-control mb-2" name="GuestName" placeholder="Nama *">
                 <input type="text" class="form-control mb-2" name="GuestNumber" placeholder="Nombor Telefon * Cth: 0123456789">
                 <select class="form-control mb-2" id="kehadiran" name="GuestLimit">
@@ -430,7 +430,7 @@
                 <button type="submit" name="button" class="btn btn-dark" id="sahkan">Hantar</button>
                 <button type="button" name="button" class="btn btn-dark" id="batal">Batal</button>
                 <input type="hidden" name="flag" id="flag" value="hadir">
-                <input type="hidden" name="PreviewId" value="<?php echo hashids_encrypt($details->PreviewId); ?>">
+                <input type="hidden" name="InvitationId" value="<?php echo hashids_encrypt($details->InvitationId); ?>">
                 <input type="hidden" class="txt_csrfname" name="<?= $this->security->get_csrf_token_name(); ?>" value="<?= $this->security->get_csrf_hash(); ?>">
               </form>
             </div>
@@ -545,7 +545,7 @@
               <h5>UCAPAN</h5>
             </div>
             <div class="col-12 text-center">
-              <form id="comment-form" action="<?php echo base_url(); ?>preview-comment" method="post">
+              <form id="comment-form" action="<?php echo base_url(); ?>comment" method="post">
                 <div>
                   <input type="text" class="form-control mb-2" name="CommentName" placeholder="Nama Anda *">
                   <textarea class="form-control mb-2" name="Comment" placeholder="Ucapan Anda *"></textarea>
@@ -553,7 +553,7 @@
                     <button type="submit" name="button" class="btn btn-dark">Hantar Sekarang</button>
                   </div>
                 </div>
-                <input type="hidden" name="PreviewId" value="<?php echo hashids_encrypt($details->PreviewId); ?>">
+                <input type="hidden" name="InvitationId" value="<?php echo hashids_encrypt($details->InvitationId); ?>">
                 <input type="hidden" class="txt_csrfname" name="<?= $this->security->get_csrf_token_name(); ?>" value="<?= $this->security->get_csrf_hash(); ?>">
               </form>
             </div>
@@ -733,7 +733,7 @@
           {
             load_comment();
             $('#box-6').slideToggle();
-            $("#comment-form")[0].reset();
+            $("#comment-form")[0].reset()
             // notification('black','slideBottomRight','Message',data.message,10000);
           }else{
             // notification('black','slideBottomRight','Message',data.message,10000);
@@ -752,10 +752,10 @@
       var csrfName   = $('.txt_csrfname').attr('name');
       var csrfHash   = $('.txt_csrfname').val();
 
-      var id = "<?php echo hashids_encrypt($details->PreviewId); ?>";
+      var id = "<?php echo hashids_encrypt($details->InvitationId); ?>";
 
       $.ajax({
-        url		   : "<?php echo base_url();?>preview-load",
+        url		   : "<?php echo base_url();?>load",
         type		 : "POST",
         dataType : "JSON",
         data		 :{id:id, [csrfName]: csrfHash},
@@ -775,10 +775,10 @@
       var csrfName   = $('.txt_csrfname').attr('name');
       var csrfHash   = $('.txt_csrfname').val();
 
-      var id = "<?php echo hashids_encrypt($details->PreviewId); ?>";
+      var id = "<?php echo hashids_encrypt($details->InvitationId); ?>";
 
       $.ajax({
-        url		   : "<?php echo base_url();?>preview-attend",
+        url		   : "<?php echo base_url();?>attend",
         type		 : "POST",
         dataType : "JSON",
         data		 :{id:id, [csrfName]: csrfHash},
