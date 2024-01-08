@@ -530,8 +530,16 @@
               <?php if (!isset(explode("=", $details->OpeningSong)[1])) { ?>
                 Please provide the correct YouTube link. <br>
                 <small> <i>Example: https://www.youtube.com/watch?v=Nnd9UT8sgvU</i> </small>
-              <?php }else { ?>
-                <iframe id="youtubeIframe" width="100%" height="auto" style="border-radius: 10px;" src="https://www.youtube.com/embed/<?php echo explode("=", $details->OpeningSong)[1]; ?>?si=UmZdpBfRHdf4rKWU" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+              <?php }else {
+
+                if (strpos($details->OpeningSong, 'https://youtu.be/') !== false) {
+                  $link = 'https://www.youtube.com/embed/'.explode("https://youtu.be/", $details->OpeningSong)[1];
+                }else {
+                  $link = 'https://www.youtube.com/embed/'.explode("=", $details->OpeningSong)[1].'?si=UmZdpBfRHdf4rKWU';
+                }
+
+              ?>
+                <iframe id="youtubeIframe" width="100%" height="auto" style="border-radius: 10px;" src="<?php echo $link; ?>" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
               <?php } ?>
             </div>
           </div>

@@ -52,6 +52,12 @@ class Main_model extends CI_Model
     return $query->result();
   }
 
+  function get_guest($id){
+    $this->db->where('InvitationId',$id);
+    $query = $this->db->get('guest');
+    return $query->result();
+  }
+
   function update_invite($data){
     $this->db->where('InvitationId',$data['InvitationId']);
     return $this->db->update('invitation',$data);

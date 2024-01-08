@@ -74,6 +74,22 @@ class Main extends CI_Controller {
     }
 	}
 
+  public function guest()
+	{
+    $data = array_merge($this->global_data);
+
+    $id = hashids_decrypt($this->uri->segment(2),'config',15);
+
+    $data['header'] = $this->load->view('templates/main-header','',true);
+    $data['navbar'] = $this->load->view('templates/main-navbar',$data,true);
+		$data['footer'] = $this->load->view('templates/main-footer','',true);
+		$data['bottom'] = $this->load->view('templates/main-bottom','',true);
+
+    $data['guest'] = $this->Main_model->get_guest($id);
+
+    $this->load->view('main/guest',$data);
+	}
+
   function save(){
     $data = array_merge($this->global_data);
 

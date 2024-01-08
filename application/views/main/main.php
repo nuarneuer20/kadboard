@@ -86,11 +86,18 @@
                                   </div>
                                 </a>
                               </div>
-                              <div class="col-12 mt-2">
+                              <div class="col-6 mt-2">
                                 <div class="d-grid gap-2">
                                   <input type="hidden" id="link-<?php echo $i; ?>" value="<?php echo base_url()."invitation/".hashids_encrypt($row->InvitationId,'config',10); ?>">
-                                  <button type="button" name="button" class="btn btn-dark copy" data-id="<?php echo $i; ?>">Copy Invitation Link</button>
+                                  <button type="button" name="button" class="btn btn-dark copy" data-id="<?php echo $i; ?>">Copy Link</button>
                                 </div>
+                              </div>
+                              <div class="col-6 mt-2">
+                                <a href="<?php echo base_url()."guest/".hashids_encrypt($row->InvitationId,'config',15); ?>">
+                                  <div class="d-grid gap-2">
+                                    <button type="button" name="button" class="btn btn-dark">View Guest</button>
+                                  </div>
+                                </a>
                               </div>
                             </div>
                             <h5 class="card-title"><?php echo $title; ?></h5>

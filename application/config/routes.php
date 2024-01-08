@@ -68,6 +68,7 @@ $route['checkout/(:any)'] = 'checkout/validate';
 $route['payment'] = 'checkout/payment';
 $route['details/(:any)'] = 'checkout/details';
 
+$route['guest/(:any)'] = 'guest/guest';
 $route['modify/(:any)'] = 'main/modify';
 $route['save-invitation'] = 'main/save';
 
