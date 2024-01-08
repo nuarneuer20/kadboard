@@ -1,11 +1,12 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
 
-<title>Kadboard | Seamless Invitations, Boundless Celebrations</title>
+<title>Kadboard | Kad Jemputan Digital</title>
 
-<meta name="description" content="Explore kadboard.com for curated online event invitations.">
-<meta name="keywords" content="Online Invitation,Online Events, Virtual Invitations, Jemputan, Online Wedding Invitation, Kad Kahwin Digital, Event Experiences, Kadboard">
+<meta name="description" content="Reka kad jemputan digital menarik dengan mudah melalui platform kami. Terokai pelbagai reka bentuk yang boleh disesuaikan untuk pelbagai majlis.">
+<meta name="keywords" content="Kad Jemputan Digital, Kad Akikah Digital, Kad Kahwin Digital, Kad Tunang Digital, Online Invitation,Online Events, Virtual Invitations, Online Wedding Invitation, Kad Kahwin Digital, Event Experiences, Kadboard">
 <meta name="robots" content="index, follow">
+<meta name="google-adsense-account" content="ca-pub-9162804852863605">
 <link rel="canonical" href="https://www.kadboard.com/">
 
 <!-- Favicon -->
@@ -38,14 +39,3 @@
 <!-- Helpers -->
 <script src="<?php echo base_url(); ?>assets/vendor/js/helpers.js"></script>
 <script src="<?php echo base_url(); ?>assets/js/front-config.js"></script>
-
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-MJ028CFBL2"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-MJ028CFBL2');
-</script>

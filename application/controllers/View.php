@@ -32,7 +32,7 @@ class View extends CI_Controller {
 		$data['DesignColor'] = $data['details']->DesignColor;
 
 		if ($data['details']->InvitationTypeId == 1) {
-			$data['WeddingTitle'] = 'MAJLIS PERKHAWINAN ';
+			$data['WeddingTitle'] = $data['details']->EventType.' ';
 			foreach ($data['bride'] as $row) {
 				$data['WeddingTitle'] .= mb_strtoupper($row->BrideName);
 			}

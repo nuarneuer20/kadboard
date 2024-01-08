@@ -1,0 +1,1 @@
+sitemap: https://www.kadboard.com/sitemap.xml

@@ -6,6 +6,7 @@
 <title>Kadboard.</title>
 
 <meta name="description" content="" />
+<meta name="google-adsense-account" content="ca-pub-9162804852863605">
 
 <!-- Favicon -->
 <link rel="icon" type="image/x-icon" href="<?php echo base_url(); ?>assets/kad/kadboard.png" />

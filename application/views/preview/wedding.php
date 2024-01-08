@@ -386,8 +386,8 @@
 
           </div>
         <?php endif; ?>
-
-        <p class="text-center mt-2"> <strong>Ingin kad seperti ini?</strong> <br> Dapatkan sekarang di <a href="<?php echo base_url(); ?>" target="_blank">kadboard.com</a> </p>
+		  
+		  <p class="text-center mt-2"> <strong>Ingin kad seperti ini?</strong> <br> Dapatkan sekarang di <a href="<?php echo base_url(); ?>" target="_blank">kadboard.com</a> </p>
 
       </div>
 

@@ -56,7 +56,17 @@
     }
     </style>
   </head>
+	
+	<!-- Google tag (gtag.js) -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=G-MJ028CFBL2"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
 
+	  gtag('config', 'G-MJ028CFBL2');
+	</script>
+	
   <body>
     <script src="<?php echo base_url(); ?>assets/vendor/js/dropdown-hover.js"></script>
     <script src="<?php echo base_url(); ?>assets/vendor/js/mega-dropdown.js"></script>
@@ -108,43 +118,6 @@
               </li>
 							<li class="nav-item active">
                 <a class="nav-link fw-medium" aria-current="page" href="<?php echo base_url(); ?>templates">Templates</a>
-              </li>
-              <li class="nav-item mega-dropdown">
-                <a href="javascript:void(0);" class="nav-link dropdown-toggle navbar-ex-14-mega-dropdown mega-dropdown fw-medium" aria-expanded="false" data-bs-toggle="mega-dropdown" data-trigger="hover">
-                  <span data-i18n="Pages">Kad Digital</span>
-                </a>
-                <div class="dropdown-menu p-4">
-                  <div class="row gy-4">
-                    <div class="col-2 col-lg">
-                      <ul class="nav flex-column">
-                        <li class="nav-item">
-                          <a class="nav-link mega-dropdown-link" href="pricing-page.html">
-                            <i class="ti ti-circle me-1"></i>
-                            <span data-i18n="Kad Kahwin/Nikah">Kad Majlis Tunang/Nikah</span>
-                          </a>
-                        </li>
-                        <li class="nav-item">
-                          <a class="nav-link mega-dropdown-link" href="payment-page.html">
-                            <i class="ti ti-circle me-1"></i>
-                            <span data-i18n="Kad Akikah">Kad Majlis Akikah</span>
-                          </a>
-                        </li>
-                        <li class="nav-item">
-                          <a class="nav-link mega-dropdown-link" href="checkout-page.html">
-                            <i class="ti ti-circle me-1"></i>
-                            <span data-i18n="Kad Majlis Hari Jadi">Kad Majlis Hari Jadi</span>
-                          </a>
-                        </li>
-                        <li class="nav-item">
-                          <a class="nav-link mega-dropdown-link" href="help-center-landing.html">
-                            <i class="ti ti-circle me-1"></i>
-                            <span data-i18n="Kad Masjlis Hari Raya">Kad Majlis Hari Raya</span>
-                          </a>
-                        </li>
-                      </ul>
-                    </div>
-                  </div>
-                </div>
               </li>
             </ul>
           </div>

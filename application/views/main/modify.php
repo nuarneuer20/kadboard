@@ -48,7 +48,15 @@
                     <div class="card mb-2">
                       <div class="card-body text-center">
                         <div class="mb-4">
-                          <h5 class="mb-0">WALIMATULURUS</h5>
+                          <!-- <h5 class="mb-0">WALIMATULURUS</h5> -->
+                          <label class="form-label">Select Event Type *</label>
+                          <select class="form-control text-center" name="EventType" id="EventType">
+                            <option value="WALIMATULURUS">WALIMATULURUS</option>
+                            <option value="MAJLIS PERKAHWINAN">MAJLIS PERKAHWINAN</option>
+                            <option value="MAJLIS PERTUNANGAN">MAJLIS PERTUNANGAN</option>
+                          </select>
+                        </div>
+                        <div class="mb-4">
                           <small>
                             <i>* Press "enter" to add new line.</i>
                           </small>
@@ -267,25 +275,35 @@ Rakan-rakan:
                           <h5 class="mb-0">Contact Details</h5>
                         </div>
                         <?php if (empty($contact)) { ?>
-                          <div class="mb-2">
-                            <label for="defaultFormControlInput" class="form-label">Contact Name *</label>
-                            <input type="text" class="form-control text-center" name="ContactName" placeholder="Abu Bakar (Ayah)">
+                          <div id="contactlist">
+                            <div id="contact">
+                              <div class="mb-2">
+                                <label for="defaultFormControlInput" class="form-label">Contact Name *</label>
+                                <input type="text" class="form-control text-center" name="ContactName" placeholder="Abu Bakar (Ayah)">
+                              </div>
+                              <div class="mb-2">
+                                <label for="defaultFormControlInput" class="form-label">Contact Number *</label>
+                                <input type="number" class="form-control text-center" name="ContactNumber" placeholder="60123456789">
+                              </div>
+                            </div>
                           </div>
-                          <div class="mb-2">
-                            <label for="defaultFormControlInput" class="form-label">Contact Number *</label>
-                            <input type="number" class="form-control text-center" name="ContactNumber" placeholder="60123456789">
-                          </div>
+                          <!-- <button type="button" class="btn btn-dark" name="button">More Contact</button> -->
                         <?php }else { ?>
-                          <?php foreach ($contact as $row): ?>
-                            <div class="mb-2">
-                              <label for="defaultFormControlInput" class="form-label">Contact Name *</label>
-                              <input type="text" class="form-control text-center" name="ContactName" placeholder="Abu Bakar (Ayah)" value="<?php echo $row->ContactName; ?>">
-                            </div>
-                            <div class="mb-2">
-                              <label for="defaultFormControlInput" class="form-label">Contact Number *</label>
-                              <input type="number" class="form-control text-center" name="ContactNumber" placeholder="60123456789" value="<?php echo $row->ContactNumber; ?>">
-                            </div>
-                          <?php endforeach; ?>
+                          <div id="contactlist">
+                            <?php foreach ($contact as $row): ?>
+                              <div id="contact">
+                                <div class="mb-2">
+                                  <label for="defaultFormControlInput" class="form-label">Contact Name *</label>
+                                  <input type="text" class="form-control text-center" name="ContactName" placeholder="Abu Bakar (Ayah)" value="<?php echo $row->ContactName; ?>">
+                                </div>
+                                <div class="mb-2">
+                                  <label for="defaultFormControlInput" class="form-label">Contact Number *</label>
+                                  <input type="number" class="form-control text-center" name="ContactNumber" placeholder="60123456789" value="<?php echo $row->ContactNumber; ?>">
+                                </div>
+                              </div>
+                            <?php endforeach; ?>
+                          </div>
+                          <!-- <button type="button" class="btn btn-dark" name="button">Add Contact</button> -->
                         <?php } ?>
                       </div>
                     </div>
@@ -432,6 +450,7 @@ Rakan-rakan:
 
     <script type="text/javascript">
 
+    $('#EventType').val("<?php echo $details->EventType; ?>").change();
     $('#WeddingDate').val("<?php echo $details->WeddingDay; ?>").change();
 
     $("#modify-form").unbind('submit').bind('submit', function() {

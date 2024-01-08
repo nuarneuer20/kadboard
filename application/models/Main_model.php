@@ -51,7 +51,7 @@ class Main_model extends CI_Model
     $query = $this->db->get('contact');
     return $query->result();
   }
-
+	
   function get_guest($id){
     $this->db->where('InvitationId',$id);
     $query = $this->db->get('guest');
