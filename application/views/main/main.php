@@ -102,7 +102,7 @@
                             </div>
                             <h5 class="card-title"><?php echo $title; ?></h5>
                             <p class="card-text">
-                              Type: Online Wedding Invitation
+                              Type: <?php echo $row->EventType; ?>
                             </p>
                             <p class="card-text"><small class="text-muted">Event date: <?php echo $date; ?></small></p>
                           </div>

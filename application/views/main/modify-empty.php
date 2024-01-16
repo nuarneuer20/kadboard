@@ -48,7 +48,20 @@
                     <div class="card mb-2">
                       <div class="card-body text-center">
                         <div class="mb-4">
-                          <h5 class="mb-0">WALIMATULURUS</h5>
+                          <div class="mb-4">
+                            <!-- <h5 class="mb-0">WALIMATULURUS</h5> -->
+                            <label class="form-label">Select Event Type *</label>
+                            <select class="form-control text-center" name="EventType" id="EventType">
+                              <option value="WALIMATULURUS">WALIMATULURUS</option>
+                              <option value="MAJLIS PERKAHWINAN">MAJLIS PERKAHWINAN</option>
+                              <option value="MAJLIS PERTUNANGAN">MAJLIS PERTUNANGAN</option>
+                            </select>
+                          </div>
+                          <div class="mb-4">
+                            <small>
+                              <i>* Press "enter" to add new line.</i>
+                            </small>
+                          </div>
                           <!-- <small>
                             <i>* Butiran ini digunakan untuk muka pertama.</i>
                           </small> -->
