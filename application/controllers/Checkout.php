@@ -1,6 +1,9 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
+// require FCPATH  . 'vendor/autoload.php';
+require_once 'vendor/autoload.php';
+
 class Checkout extends CI_Controller {
 
 	function __construct(){
@@ -41,6 +44,19 @@ class Checkout extends CI_Controller {
 	}
 
 	function payment(){
+
+		$stripe = new \Stripe\StripeClient($this->config->item('stripe_secret'));
+		$customer = $stripe->customers->create([
+		    'description' => 'example customer',
+		    'email' => 'email@example.com',
+		    'payment_method' => 'pm_card_visa',
+		]);
+
+		echo $customer;
+
+		die;
+
+
     $data = array_merge($this->global_data);
 
     $this->form_validation->set_rules('Name', 'name', 'required');
@@ -142,6 +158,24 @@ class Checkout extends CI_Controller {
 		$data['details'] = $this->Checkout_model->get_details($id);
 
 		$this->load->view('details',$data);
+	}
+
+	function stripe(){
+		echo "string";
+		die;
+
+		\Stripe\Stripe::setApiKey($this->config->item('stripe_secret'));
+
+		\Stripe\Charge::create ([
+						"amount" => 100 * 120,
+						"currency" => "inr",
+						"source" => $this->input->post('stripeToken'),
+						"description" => "Dummy stripe payment."
+		]);
+
+		$this->session->set_flashdata('success', 'Payment has been successful.');
+
+		redirect('/make-stripe-payment', 'refresh');
 	}
 
 }

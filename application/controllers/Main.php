@@ -107,8 +107,8 @@ class Main extends CI_Controller {
     $this->form_validation->set_rules('ReservationDate', 'RSVP date', 'required');
     $this->form_validation->set_rules('GuestNumber', 'number of guest', 'required');
     $this->form_validation->set_rules('GuestLimit', 'limit of each guest', 'required');
-    $this->form_validation->set_rules('ContactName', 'contact name', 'required');
-    $this->form_validation->set_rules('ContactNumber', 'wedding coordinate', 'required');
+    $this->form_validation->set_rules('ContactName-1', 'contact name', 'required');
+    $this->form_validation->set_rules('ContactNumber-1', 'wedding coordinate', 'required');
 
     if ($this->form_validation->run() == FALSE) {
       // Validation failed
@@ -209,22 +209,28 @@ class Main extends CI_Controller {
         $this->Main_model->insert_reservation($rsvp);
       }
 
-      $checkcontact = $this->Main_model->check_contact($inviteid);
-      if (isset($checkcontact)) {
-        $contact = [
-          'ContactId'     => $checkcontact->ContactId,
-          'InvitationId'  => $inviteid,
-          'ContactName'   => $get['ContactName'],
-          'ContactNumber' => $get['ContactNumber'],
-        ];
-        $this->Main_model->update_contact($contact);
-      }else {
-        $contact = [
-          'InvitationId'  => $inviteid,
-          'ContactName'   => $get['ContactName'],
-          'ContactNumber' => $get['ContactNumber'],
-        ];
-        $this->Main_model->insert_contact($contact);
+      for ($i=1; $i < $get['Count'] + 1; $i++) {
+
+        if (isset($get['ContactId-'.$i])) {
+          $id = $get['ContactId-'.$i];
+          $checkcontact = $this->Main_model->check_contact($inviteid,$id);
+          $contact = [
+            'ContactId'     => $checkcontact->ContactId,
+            'InvitationId'  => $inviteid,
+            'ContactName'   => $get['ContactName-'.$i],
+            'ContactNumber' => $get['ContactNumber-'.$i],
+          ];
+          $this->Main_model->update_contact($contact);
+        }else {
+          if (isset($get['ContactName-'.$i]) && $get['ContactName-'.$i] != '') {
+            $contact = [
+              'InvitationId'  => $inviteid,
+              'ContactName'   => $get['ContactName-'.$i],
+              'ContactNumber' => $get['ContactNumber-'.$i],
+            ];
+            $this->Main_model->insert_contact($contact);
+          }
+        }
       }
 
       $status    = true;
@@ -235,6 +241,24 @@ class Main extends CI_Controller {
     $result['token']    = $data['csrf']['hash'];
     $result['status']   = $status;
     $result['message']  = $response;
+
+    echo json_encode($result);
+  }
+
+  function remove(){
+    $data = array_merge($this->global_data);
+
+		$id = $this->input->post('id');
+
+		if ($this->Main_model->remove_contact($id)) {
+      $message = 'Contact has been removed';
+    }else {
+      $message = 'Something went wrong. Please try again later.';
+    }
+
+    $result['token']    = $data['csrf']['hash'];
+    $result['status']   = true;
+    $result['result']   = $message;
 
     echo json_encode($result);
   }

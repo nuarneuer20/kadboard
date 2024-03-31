@@ -41,6 +41,7 @@
                 </div>
               </div>
 
+              <!-- <form id="checkout-form" action="<?php echo base_url(); ?>checkout/stripe" method="post"> -->
               <form id="checkout-form" action="<?php echo base_url(); ?>payment" method="post">
                 <div class="row mb-4">
                   <div class="col-md-6 col-12 mx-auto">

@@ -276,35 +276,51 @@ Rakan-rakan:
                         </div>
                         <?php if (empty($contact)) { ?>
                           <div id="contactlist">
-                            <div id="contact">
+                            <div class="contact" id="contact-1">
                               <div class="mb-2">
                                 <label for="defaultFormControlInput" class="form-label">Contact Name *</label>
-                                <input type="text" class="form-control text-center" name="ContactName" placeholder="Abu Bakar (Ayah)">
+                                <input type="text" class="form-control text-center" name="ContactName-1" placeholder="Abu Bakar (Ayah)">
                               </div>
                               <div class="mb-2">
                                 <label for="defaultFormControlInput" class="form-label">Contact Number *</label>
-                                <input type="number" class="form-control text-center" name="ContactNumber" placeholder="60123456789">
+                                <input type="number" class="form-control text-center" name="ContactNumber-1" placeholder="60123456789">
                               </div>
                             </div>
+                            <hr class="mt-4">
                           </div>
                           <!-- <button type="button" class="btn btn-dark" name="button">More Contact</button> -->
                         <?php }else { ?>
                           <div id="contactlist">
-                            <?php foreach ($contact as $row): ?>
-                              <div id="contact">
+                            <?php $i = 1; foreach ($contact as $row): ?>
+                              <div class="contact" id="contact-<?php echo $i; ?>">
                                 <div class="mb-2">
                                   <label for="defaultFormControlInput" class="form-label">Contact Name *</label>
-                                  <input type="text" class="form-control text-center" name="ContactName" placeholder="Abu Bakar (Ayah)" value="<?php echo $row->ContactName; ?>">
+                                  <input type="text" class="form-control text-center" name="ContactName-<?php echo $i; ?>" placeholder="Abu Bakar (Ayah)" value="<?php echo $row->ContactName; ?>">
                                 </div>
                                 <div class="mb-2">
                                   <label for="defaultFormControlInput" class="form-label">Contact Number *</label>
-                                  <input type="number" class="form-control text-center" name="ContactNumber" placeholder="60123456789" value="<?php echo $row->ContactNumber; ?>">
+                                  <input type="number" class="form-control text-center" name="ContactNumber-<?php echo $i; ?>" placeholder="60123456789" value="<?php echo $row->ContactNumber; ?>">
                                 </div>
+                                <input type="hidden" name="ContactId-<?php echo $i; ?>" value="<?php echo $row->ContactId; ?>">
+                                <?php if ($i != 1){ ?>
+                                  <a href="#!" class="remove" data-row="<?php echo $i; ?>" data-id="<?php echo $row->ContactId; ?>">
+                                    <div class="divider">
+                                      <div class="divider-text">Remove Contact</div>
+                                    </div>
+                                  </a>
+                                <?php }else { ?>
+                                  <!-- <a href="#!"> -->
+                                    <div class="divider">
+                                      <div class="divider-text">Default Contact</div>
+                                    </div>
+                                  <!-- </a> -->
+                                <?php } ?>
                               </div>
-                            <?php endforeach; ?>
+                            <?php $i++; endforeach; ?>
                           </div>
-                          <!-- <button type="button" class="btn btn-dark" name="button">Add Contact</button> -->
                         <?php } ?>
+                        <input type="hidden" name="Count" id="Count" value="<?php echo $i; ?>">
+                        <button type="button" class="btn btn-dark mt-2" id="more-contact" name="button">More Contact</button>
                       </div>
                     </div>
                   </div>
@@ -477,6 +493,64 @@ Rakan-rakan:
       });
       return false;
     });
+
+    $("#more-contact").on('click', function(){
+
+      var total = $('.contact').length + 1;
+
+      var contact = '<div class="contact" id="contact-'+total+'">'+
+                      '<div class="mb-2">'+
+                        '<label for="defaultFormControlInput" class="form-label">Contact Name *</label>'+
+                        '<input type="text" class="form-control text-center" name="ContactName-'+total+'" placeholder="Abu Bakar (Ayah)" value="">'+
+                      '</div>'+
+                      '<div class="mb-2">'+
+                        '<label for="defaultFormControlInput" class="form-label">Contact Number *</label>'+
+                        '<input type="number" class="form-control text-center" name="ContactNumber-'+total+'" placeholder="60123456789" value="">'+
+                      '</div>'+
+                      '<a href="#!" class="remove" data-row="'+total+'" data-id="0">'+
+                        '<div class="divider">'+
+                          '<div class="divider-text">Remove Contact</div>'+
+                        '</div>'+
+                      '</a>'
+                    '</div>';
+
+      $('#contactlist').append(contact);
+      $('#Count').val(total);
+    });
+
+    $("#contactlist").on('click','.remove', function(){
+      var row = $(this).data('row');
+      var id = $(this).data('id');
+
+      if (id != 0) {
+        var csrfName   = $('.txt_csrfname').attr('name');
+        var csrfHash   = $('.txt_csrfname').val();
+
+        $.ajax({
+          url		   : "<?php echo base_url();?>main/remove",
+          type		 : "POST",
+          dataType : "JSON",
+          data		 :{id:id, [csrfName]: csrfHash},
+          success	 :function(data)  {
+            $('.txt_csrfname').val(data.token);
+            $("#contact-"+row).remove();
+            notification('black','slideTopRight','Message',data.result,10000);
+          },
+          error: function(xhr, status, error) {
+            // getToken();
+          }
+        });
+      }else {
+        $("#contact-"+row).remove();
+      }
+
+    });
+
+    // $(".remove").on('click', function(){
+    //   var row = $(this).data('row');
+    //   $("#contact-"+row).remove();
+    // });
+
     </script>
   </body>
 </html>

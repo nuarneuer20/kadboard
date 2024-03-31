@@ -51,7 +51,7 @@ class Main_model extends CI_Model
     $query = $this->db->get('contact');
     return $query->result();
   }
-	
+
   function get_guest($id){
     $this->db->where('InvitationId',$id);
     $query = $this->db->get('guest');
@@ -111,8 +111,9 @@ class Main_model extends CI_Model
     return $this->db->update('reservation',$data);
   }
 
-  function check_contact($id){
-    $this->db->where('InvitationId',$id);
+  function check_contact($inviteid,$id){
+    $this->db->where('InvitationId',$inviteid);
+    $this->db->where('ContactId',$id);
     $query = $this->db->get('contact');
     return $query->row();
   }
@@ -125,5 +126,10 @@ class Main_model extends CI_Model
   function update_contact($data){
     $this->db->where('ContactId',$data['ContactId']);
     return $this->db->update('contact',$data);
+  }
+
+  function remove_contact($id){
+    $this->db->where('ContactId',$id);
+    return $this->db->delete('contact');
   }
 }
