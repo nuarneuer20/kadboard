@@ -45,18 +45,6 @@ class Checkout extends CI_Controller {
 
 	function payment(){
 
-		$stripe = new \Stripe\StripeClient($this->config->item('stripe_secret'));
-		$customer = $stripe->customers->create([
-		    'description' => 'example customer',
-		    'email' => 'email@example.com',
-		    'payment_method' => 'pm_card_visa',
-		]);
-
-		echo $customer;
-
-		die;
-
-
     $data = array_merge($this->global_data);
 
     $this->form_validation->set_rules('Name', 'name', 'required');
@@ -161,21 +149,56 @@ class Checkout extends CI_Controller {
 	}
 
 	function stripe(){
-		echo "string";
+
+		\Stripe\Stripe::setApiKey('sk_test_51OhwsEFYjbsGTXVawadjPAS33ER4cxinsb3cSY1idJqzcOlSjuSUNIeXJSNWgq6dbb18RT1aJLZeu3hjlKykyWM400IxEblmcq');
+
+		if ($_POST) {
+        // Retrieve the form data
+        $token = $this->input->post('stripeToken');
+        $email = $this->input->post('stripeEmail');
+
+        try {
+            // Create a charge with the specified currency
+            $charge = \Stripe\Charge::create([
+                'amount' => 5000, // Amount in cents
+                'currency' => 'myr', // Set the currency to Euros
+                'source' => $token,
+                'description' => 'Test charge from CodeIgniter',
+                'receipt_email' => $email,
+            ]);
+
+            // Send a success message
+            $data['success'] = 'Payment successful!';
+        } catch (\Stripe\Exception\CardException $e) {
+            // Send an error message
+            $data['error'] = $e->getMessage();
+        }
+
+        // Load a view and pass the message
+        // $this->load->view('payment_status', $data);
+    }
+		
+		echo "<pre>";
+		print_r($_POST);
+		echo "</pre>";
+
 		die;
 
-		\Stripe\Stripe::setApiKey($this->config->item('stripe_secret'));
-
-		\Stripe\Charge::create ([
-						"amount" => 100 * 120,
-						"currency" => "inr",
-						"source" => $this->input->post('stripeToken'),
-						"description" => "Dummy stripe payment."
-		]);
-
-		$this->session->set_flashdata('success', 'Payment has been successful.');
-
-		redirect('/make-stripe-payment', 'refresh');
+		// echo "string";
+		// die;
+		//
+		// \Stripe\Stripe::setApiKey($this->config->item('stripe_secret'));
+		//
+		// \Stripe\Charge::create ([
+		// 				"amount" => 100 * 120,
+		// 				"currency" => "inr",
+		// 				"source" => $this->input->post('stripeToken'),
+		// 				"description" => "Dummy stripe payment."
+		// ]);
+		//
+		// $this->session->set_flashdata('success', 'Payment has been successful.');
+		//
+		// redirect('/make-stripe-payment', 'refresh');
 	}
 
 }
