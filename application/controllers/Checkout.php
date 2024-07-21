@@ -52,7 +52,8 @@ class Checkout extends CI_Controller {
 			array('is_unique' => 'Email already exist. Please login to your account')
 		);
 		$this->form_validation->set_rules('MobileNumber', 'mobile number', 'required');
-		$this->form_validation->set_rules('Coupon', 'coupon', 'required');
+		$this->form_validation->set_rules('CardName', 'card holder name', 'required');
+		// $this->form_validation->set_rules('Coupon', 'coupon', 'required');
 		$this->form_validation->set_rules('Terms', 'terms', 'required',
 			array('required' => 'You must agree to the Terms & Conditions and Privacy Policy')
 		);
@@ -177,7 +178,7 @@ class Checkout extends CI_Controller {
         // Load a view and pass the message
         // $this->load->view('payment_status', $data);
     }
-		
+
 		echo "<pre>";
 		print_r($_POST);
 		echo "</pre>";

@@ -64,7 +64,7 @@
               </div>
 
               <!-- <form id="checkout-form" action="<?php echo base_url(); ?>checkout/stripe" method="post"> -->
-              <form id="checkout-form" action="<?php echo base_url(); ?>payment" method="post">
+              <form id="payment-form" action="<?php echo base_url(); ?>payment" method="post">
                 <div class="row mb-4">
                   <div class="col-md-6 col-12 mx-auto">
                     <div class="card mb-2">
@@ -91,7 +91,7 @@
                             autofocus />
                         </div>
                         <div class="mb-3">
-                          <label for="defaultFormControlInput" class="form-label">Coupon *</label>
+                          <label for="defaultFormControlInput" class="form-label">Coupon</label>
                           <input type="text" class="form-control" name="Coupon">
                         </div>
                         <div class="mb-2">
@@ -113,7 +113,7 @@
                   <div class="col-md-6 col-12 mx-auto">
                     <div class="card">
                       <div class="card-header d-flex justify-content-between align-items-center">
-                        <h5 class="card-title m-0">Checkout Details</h5>
+                        <h5 class="card-title m-0">Item Details</h5>
                       </div>
                       <div class="card-datatable table-responsive">
                         <table class="datatables-order-details table border-top">
@@ -142,15 +142,15 @@
                             </div>
                             <div class="d-flex justify-content-between mb-2">
                               <span class="w-px-100 text-heading">Discount:</span>
-                              <h6 class="mb-0">- RM 60.00</h6>
+                              <h6 class="mb-0">- RM 0.00</h6>
                             </div>
-                            <div class="d-flex justify-content-between mb-2">
+                            <!-- <div class="d-flex justify-content-between mb-2">
                               <span class="w-px-100 text-heading">Tax:</span>
                               <h6 class="mb-0">RM 0.00</h6>
-                            </div>
+                            </div> -->
                             <div class="d-flex justify-content-between">
                               <h6 class="w-px-100 mb-0">Total:</h6>
-                              <h6 class="mb-0">RM 0.00</h6>
+                              <h6 class="mb-0">RM 60.00</h6>
                             </div>
                           </div>
                         </div>
@@ -161,10 +161,39 @@
 
                 <div class="row mb-4">
                   <div class="col-md-6 col-12 mx-auto">
+
+                    <div class="card mb-2">
+                      <div class="card-body">
+                        <div class="mb-2">
+                          <h5 class="mb-0">Pay with Card</h5>
+                        </div>
+                        <div class="mb-2">
+                          <label for="defaultFormControlInput" class="form-label">Card Holder Name*</label>
+                          <input type="text" class="form-control" name="CardName" placeholder="Full name on card">
+                        </div>
+                        <!-- <div class="mb-2">
+                          <label for="defaultFormControlInput" class="form-label">Email * <small>(Payment receipt will be sent here)</small> </label>
+                          <input type="email" class="form-control" name="ReceiptEmail">
+                        </div> -->
+                        <div class="mb-2">
+                          <label for="card-element" class="form-label">Credit or debit card</label>
+                          <div id="card-element">
+
+                          </div>
+                          <div id="card-errors" role="alert"></div>
+                        </div>
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+
+                <div class="row mb-4">
+                  <div class="col-md-6 col-12 mx-auto">
                     <div class="d-grid gap-2">
                       <input type="hidden" name="DesignId" value="<?php echo $design->DesignId; ?>">
                       <input type="hidden" class="txt_csrfname" name="<?= $this->security->get_csrf_token_name(); ?>" value="<?= $this->security->get_csrf_hash(); ?>">
-                      <button type="submit" name="button" class="btn btn-dark">CHECKOUT</button>
+                      <button type="submit" name="button" class="btn btn-dark">BAYAR SEKARANG</button>
                     </div>
                   </div>
                 </div>
@@ -172,7 +201,7 @@
 
 
 
-              <!-- <form action="<?php echo base_url(); ?>stripe" method="post" id="payment-form">
+              <!-- <form action="<?php echo base_url(); ?>checkout/stripe" method="post" id="payment-form">
                   <input type="email" name="stripeEmail" placeholder="Email Address">
                   <script src="https://checkout.stripe.com/checkout.js" class="stripe-button"
                           data-key="pk_test_51OhwsEFYjbsGTXVacZ31UEl0CIb8pPMUluKHVEvdOx0Jtla5XVb7VPVbJNyfJsKqOz9N5xLNNAeTevgXSYnpKO9p0050yEekIv"
@@ -184,17 +213,6 @@
                   </script>
               </form> -->
 
-              <form action="<?php echo base_url(); ?>stripe" method="post" id="payment-form">
-                  <div class="form-row">
-                      <label for="card-element">Credit or debit card</label>
-                      <div id="card-element">
-                          <!-- A Stripe Element will be inserted here. -->
-                      </div>
-                      <!-- Used to display form errors. -->
-                      <div id="card-errors" role="alert"></div>
-                  </div>
-                  <button type="submit">Submit Payment</button>
-              </form>
 
             </div>
             <!--/ Content -->
@@ -220,7 +238,7 @@
     <script src="https://js.stripe.com/v3/"></script>
 
     <script type="text/javascript">
-    $("#checkout-form").unbind('submit').bind('submit', function() {
+    $("#payment-form").unbind('submit').bind('submit', function() {
       var form = $(this);
       $.ajax({
         url: form.attr('action'),
@@ -249,73 +267,73 @@
     });
 
     // Create a Stripe client.
-        var stripe = Stripe('pk_test_51OhwsEFYjbsGTXVacZ31UEl0CIb8pPMUluKHVEvdOx0Jtla5XVb7VPVbJNyfJsKqOz9N5xLNNAeTevgXSYnpKO9p0050yEekIv');
+    var stripe = Stripe('pk_test_51OhwsEFYjbsGTXVacZ31UEl0CIb8pPMUluKHVEvdOx0Jtla5XVb7VPVbJNyfJsKqOz9N5xLNNAeTevgXSYnpKO9p0050yEekIv');
 
-        // Create an instance of Elements.
-        var elements = stripe.elements();
+    // Create an instance of Elements.
+    var elements = stripe.elements();
 
-        // Custom styling can be passed to options when creating an Element.
-        var style = {
-            base: {
-                color: '#32325d',
-                fontFamily: '"Helvetica Neue", Helvetica, sans-serif',
-                fontSmoothing: 'antialiased',
-                fontSize: '16px',
-                '::placeholder': {
-                    color: '#aab7c4'
-                }
-            },
-            invalid: {
-                color: '#fa755a',
-                iconColor: '#fa755a'
+    // Custom styling can be passed to options when creating an Element.
+    var style = {
+        base: {
+            color: '#32325d',
+            fontFamily: '"Helvetica Neue", Helvetica, sans-serif',
+            fontSmoothing: 'antialiased',
+            fontSize: '16px',
+            '::placeholder': {
+                color: '#aab7c4'
             }
-        };
-
-        // Create an instance of the card Element.
-        var card = elements.create('card', {style: style});
-
-        // Add an instance of the card Element into the `card-element` <div>.
-        card.mount('#card-element');
-
-        // Handle real-time validation errors from the card Element.
-        card.on('change', function(event) {
-            var displayError = document.getElementById('card-errors');
-            if (event.error) {
-                displayError.textContent = event.error.message;
-            } else {
-                displayError.textContent = '';
-            }
-        });
-
-        // Handle form submission.
-        var form = document.getElementById('payment-form');
-        form.addEventListener('submit', function(event) {
-            event.preventDefault();
-
-            stripe.createToken(card).then(function(result) {
-                if (result.error) {
-                    // Inform the user if there was an error.
-                    var errorElement = document.getElementById('card-errors');
-                    errorElement.textContent = result.error.message;
-                } else {
-                    // Send the token to your server.
-                    stripeTokenHandler(result.token);
-                }
-            });
-        });
-
-        // Submit the form with the token ID.
-        function stripeTokenHandler(token) {
-            var form = document.getElementById('payment-form');
-            var hiddenInput = document.createElement('input');
-            hiddenInput.setAttribute('type', 'hidden');
-            hiddenInput.setAttribute('name', 'stripeToken');
-            hiddenInput.setAttribute('value', token.id);
-            form.appendChild(hiddenInput);
-
-            // Submit the form.
-            form.submit();
+        },
+        invalid: {
+            color: '#fa755a',
+            iconColor: '#fa755a'
         }
+    };
+
+    // Create an instance of the card Element.
+    var card = elements.create('card', {style: style});
+
+    // Add an instance of the card Element into the `card-element` <div>.
+    card.mount('#card-element');
+
+    // Handle real-time validation errors from the card Element.
+    card.on('change', function(event) {
+        var displayError = document.getElementById('card-errors');
+        if (event.error) {
+            displayError.textContent = event.error.message;
+        } else {
+            displayError.textContent = '';
+        }
+    });
+
+    // Handle form submission.
+    var form = document.getElementById('payment-form');
+    form.addEventListener('submit', function(event) {
+        event.preventDefault();
+
+        stripe.createToken(card).then(function(result) {
+            if (result.error) {
+                // Inform the user if there was an error.
+                var errorElement = document.getElementById('card-errors');
+                errorElement.textContent = result.error.message;
+            } else {
+                // Send the token to your server.
+                stripeTokenHandler(result.token);
+            }
+        });
+    });
+
+    // Submit the form with the token ID.
+    function stripeTokenHandler(token) {
+        var form = document.getElementById('payment-form');
+        var hiddenInput = document.createElement('input');
+        hiddenInput.setAttribute('type', 'hidden');
+        hiddenInput.setAttribute('name', 'stripeToken');
+        hiddenInput.setAttribute('value', token.id);
+        form.appendChild(hiddenInput);
+
+        // Submit the form.
+        form.submit();
+    }
     </script>
   </body>
 </html>
