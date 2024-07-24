@@ -11,25 +11,52 @@
     <?php echo $header; ?>
 
     <style>
-        .StripeElement {
-            box-sizing: border-box;
-            height: 40px;
-            padding: 10px 12px;
-            border: 1px solid #ccd0d2;
-            border-radius: 4px;
-            background-color: white;
-            box-shadow: 0 1px 3px 0 #e6ebf1;
-            transition: box-shadow 150ms ease;
-        }
-        .StripeElement--focus {
-            box-shadow: 0 1px 3px 0 #cfd7df;
-        }
-        .StripeElement--invalid {
-            border-color: #fa755a;
-        }
-        .StripeElement--webkit-autofill {
-            background-color: #fefde5 !important;
-        }
+      .StripeElement {
+          /* box-sizing: border-box;
+          height: 40px;
+          padding: 10px 12px;
+          border: 1px solid transparent;
+          border-radius: 4px;
+          background-color: white;
+          box-shadow: 0 1px 3px 0 #e6ebf1;
+          -webkit-transition: box-shadow 150ms ease;
+          transition: box-shadow 150ms ease; */
+
+          display: block;
+          width: 100%;
+          padding: 0.422rem 0.875rem;
+          font-size: 0.9375rem;
+          font-weight: 400;
+          line-height: 1.5;
+          color: #6f6b7d;
+          background-color: #fff;
+          background-clip: padding-box;
+          border: 1px solid #dbdade;
+          appearance: none;
+          border-radius: 0.375rem;
+          transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+      }
+
+      .StripeElement--focus {
+        color: #6f6b7d;
+        background-color: #fff;
+        border-color: #7367f0;
+        outline: 0;
+        box-shadow: 0 0.125rem 0.25rem rgba(165, 163, 174, 0.3);
+      }
+
+      .StripeElement--invalid {
+          border-color: #fa755a;
+      }
+
+      .StripeElement--webkit-autofill {
+          background-color: #fefde5 !important;
+      }
+
+      #card-errors {
+        color: #fa755a;
+        margin-top: 5px;
+      }
     </style>
   </head>
 
@@ -63,8 +90,8 @@
                 </div>
               </div>
 
-              <!-- <form id="checkout-form" action="<?php echo base_url(); ?>checkout/stripe" method="post"> -->
-              <form id="payment-form" action="<?php echo base_url(); ?>payment" method="post">
+              <form id="checkout-form" action="<?php echo base_url(); ?>validation" method="post">
+              <!-- <form id="payment-form" action="<?php echo base_url(); ?>payment" method="post"> -->
                 <div class="row mb-4">
                   <div class="col-md-6 col-12 mx-auto">
                     <div class="card mb-2">
@@ -161,57 +188,63 @@
 
                 <div class="row mb-4">
                   <div class="col-md-6 col-12 mx-auto">
-
-                    <div class="card mb-2">
-                      <div class="card-body">
-                        <div class="mb-2">
-                          <h5 class="mb-0">Pay with Card</h5>
-                        </div>
-                        <div class="mb-2">
-                          <label for="defaultFormControlInput" class="form-label">Card Holder Name*</label>
-                          <input type="text" class="form-control" name="CardName" placeholder="Full name on card">
-                        </div>
-                        <!-- <div class="mb-2">
-                          <label for="defaultFormControlInput" class="form-label">Email * <small>(Payment receipt will be sent here)</small> </label>
-                          <input type="email" class="form-control" name="ReceiptEmail">
-                        </div> -->
-                        <div class="mb-2">
-                          <label for="card-element" class="form-label">Credit or debit card</label>
-                          <div id="card-element">
-
-                          </div>
-                          <div id="card-errors" role="alert"></div>
-                        </div>
-                      </div>
-                    </div>
-
-                  </div>
-                </div>
-
-                <div class="row mb-4">
-                  <div class="col-md-6 col-12 mx-auto">
                     <div class="d-grid gap-2">
                       <input type="hidden" name="DesignId" value="<?php echo $design->DesignId; ?>">
                       <input type="hidden" class="txt_csrfname" name="<?= $this->security->get_csrf_token_name(); ?>" value="<?= $this->security->get_csrf_hash(); ?>">
-                      <button type="submit" name="button" class="btn btn-dark">BAYAR SEKARANG</button>
+                      <button type="submit" name="button" class="btn btn-dark">PAY WITH DEBIT/CREDIT</button>
                     </div>
                   </div>
                 </div>
               </form>
 
+              <form id="hidden-form" action="<?php echo base_url(); ?>verifiying" method="post">
+                <input type="hidden" name="SubmitName" id="name">
+                <input type="hidden" name="SubmitEmail" id="email">
+                <input type="hidden" name="SubmitMobileNumber" id="mobilenumber">
+                <input type="hidden" name="SubmitCoupon" id="coupon">
+              </form>
 
-
-              <!-- <form action="<?php echo base_url(); ?>checkout/stripe" method="post" id="payment-form">
-                  <input type="email" name="stripeEmail" placeholder="Email Address">
-                  <script src="https://checkout.stripe.com/checkout.js" class="stripe-button"
-                          data-key="pk_test_51OhwsEFYjbsGTXVacZ31UEl0CIb8pPMUluKHVEvdOx0Jtla5XVb7VPVbJNyfJsKqOz9N5xLNNAeTevgXSYnpKO9p0050yEekIv"
-                          data-amount="5000"
-                          data-currency="myr"
-                          data-name="Test Charge"
-                          data-description="Charge for Test"
-                          data-locale="auto">
-                  </script>
-              </form> -->
+              <!-- Modal -->
+              <div class="modal fade" id="stripe-modal" tabindex="-1" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <div>
+                        <h5 class="modal-title" id="modalCenterTitle">DEBIT/CREDIT CARD PAYMENT</h5>
+                        One-time payment only
+                      </div>
+                      <button
+                        type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal"
+                        aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                      <form id="payment-form">
+                        <div class="row">
+                          <div class="col-12 mb-2">
+                            <label class="form-label" for="CardHolderName">Card Holder Name</label>
+                            <input type="text" id="CardHolderName" class="form-control" placeholder="Your name" />
+                          </div>
+                          <div class="col-12 mb-4">
+                            <div>
+                              <label class="form-label" for="card-element">Credit or Debit Card</label>
+                              <div id="card-element" class="StripeElement StripeElement--empty"></div>
+                              <div id="card-errors" role="alert"></div>
+                            </div>
+                          </div>
+                          <div class="col-12 mb-4 d-grid">
+                            <button type="submit" class="btn btn-dark">PAY</button>
+                          </div>
+                          <div class="col-12 text-center">
+                            <img src="<?php echo base_url(); ?>assets/stripe/Powered by Stripe - black.svg" height="40px;">
+                          </div>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
 
 
             </div>
@@ -238,7 +271,7 @@
     <script src="https://js.stripe.com/v3/"></script>
 
     <script type="text/javascript">
-    $("#payment-form").unbind('submit').bind('submit', function() {
+    $("#checkout-form").unbind('submit').bind('submit', function() {
       var form = $(this);
       $.ajax({
         url: form.attr('action'),
@@ -250,11 +283,7 @@
           $('.txt_csrfname').val(data.token);
           if (data.status == true)
           {
-            if (data.login == true) {
-              window.location.href = "<?php echo base_url()."main"; ?>";
-            }else {
-              window.location.href = "<?php echo base_url()."details/"; ?>"+data.message;
-            }
+            $('#stripe-modal').modal('show');
           }else{
             notification('black','slideTopRight','Message',data.message,10000);
           }
@@ -266,17 +295,41 @@
       return false;
     });
 
+    // $("#checkout-form").unbind('submit').bind('submit', function() {
+    //   var form = $(this);
+    //   $.ajax({
+    //     url: form.attr('action'),
+    //     type: form.attr('method'),
+    //     data: form.serialize(),
+    //     dataType: 'json',
+    //     success:function(data)
+    //     {
+    //       $('.txt_csrfname').val(data.token);
+    //       if (data.status == true)
+    //       {
+    //         if (data.login == true) {
+    //           window.location.href = "<?php echo base_url()."main"; ?>";
+    //         }else {
+    //           window.location.href = "<?php echo base_url()."details/"; ?>"+data.message;
+    //         }
+    //       }else{
+    //         notification('black','slideTopRight','Message',data.message,10000);
+    //       }
+    //     },
+    //     error: function(xhr, status, error) {
+    //       notification('black','slideTopRight','Message','Something went wrong. Please try again later.',10000);
+    //     },
+    //   });
+    //   return false;
+    // });
+
     // Create a Stripe client.
-    var stripe = Stripe('pk_test_51OhwsEFYjbsGTXVacZ31UEl0CIb8pPMUluKHVEvdOx0Jtla5XVb7VPVbJNyfJsKqOz9N5xLNNAeTevgXSYnpKO9p0050yEekIv');
-
-    // Create an instance of Elements.
+    var stripe = Stripe('<?php echo $this->config->item('stripe_publishable_key'); ?>');
     var elements = stripe.elements();
-
-    // Custom styling can be passed to options when creating an Element.
     var style = {
         base: {
             color: '#32325d',
-            fontFamily: '"Helvetica Neue", Helvetica, sans-serif',
+            fontFamily: '"Sen", sans-serif',
             fontSmoothing: 'antialiased',
             fontSize: '16px',
             '::placeholder': {
@@ -289,13 +342,9 @@
         }
     };
 
-    // Create an instance of the card Element.
     var card = elements.create('card', {style: style});
-
-    // Add an instance of the card Element into the `card-element` <div>.
     card.mount('#card-element');
 
-    // Handle real-time validation errors from the card Element.
     card.on('change', function(event) {
         var displayError = document.getElementById('card-errors');
         if (event.error) {
@@ -305,35 +354,50 @@
         }
     });
 
-    // Handle form submission.
     var form = document.getElementById('payment-form');
     form.addEventListener('submit', function(event) {
-        event.preventDefault();
 
-        stripe.createToken(card).then(function(result) {
+      event.preventDefault();
+
+      if ($('#CardHolderName').val() == '') {
+        var errorElement = document.getElementById('card-errors');
+        errorElement.textContent = 'Card holder name is required.';
+      }else {
+        stripe.createPaymentMethod({
+            type: 'card',
+            card: card,
+        }).then(function(result) {
             if (result.error) {
-                // Inform the user if there was an error.
                 var errorElement = document.getElementById('card-errors');
                 errorElement.textContent = result.error.message;
             } else {
-                // Send the token to your server.
-                stripeTokenHandler(result.token);
+                $.ajax({
+                    url: '<?php echo base_url('stripe'); ?>',
+                    method: 'POST',
+                    data: {
+                      amount: 200
+                    },
+                    success: function(response) {
+                        var clientSecret = JSON.parse(response).clientSecret;
+
+                        stripe.confirmCardPayment(clientSecret, {
+                            payment_method: result.paymentMethod.id
+                        }).then(function(result) {
+                            if (result.error) {
+                                var errorElement = document.getElementById('card-errors');
+                                errorElement.textContent = result.error.message;
+                            } else {
+                                if (result.paymentIntent.status === 'succeeded') {
+                                    window.location.href = '<?php echo base_url('stripe/success'); ?>';
+                                }
+                            }
+                        });
+                    }
+                });
             }
         });
+      }
     });
-
-    // Submit the form with the token ID.
-    function stripeTokenHandler(token) {
-        var form = document.getElementById('payment-form');
-        var hiddenInput = document.createElement('input');
-        hiddenInput.setAttribute('type', 'hidden');
-        hiddenInput.setAttribute('name', 'stripeToken');
-        hiddenInput.setAttribute('value', token.id);
-        form.appendChild(hiddenInput);
-
-        // Submit the form.
-        form.submit();
-    }
     </script>
   </body>
 </html>

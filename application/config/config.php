@@ -34,8 +34,9 @@ $config['base_url'] = $url;
 #--------------------------------------------------------------------
 # Stripe
 #--------------------------------------------------------------------
-$config['stripe_key'] = 'pk_test_51OhwsEFYjbsGTXVacZ31UEl0CIb8pPMUluKHVEvdOx0Jtla5XVb7VPVbJNyfJsKqOz9N5xLNNAeTevgXSYnpKO9p0050yEekIv';
-$config['stripe_secret'] = 'sk_test_51OhwsEFYjbsGTXVawadjPAS33ER4cxinsb3cSY1idJqzcOlSjuSUNIeXJSNWgq6dbb18RT1aJLZeu3hjlKykyWM400IxEblmcq';
+$config['stripe_api_key']         = 'sk_test_51OhwsEFYjbsGTXVawadjPAS33ER4cxinsb3cSY1idJqzcOlSjuSUNIeXJSNWgq6dbb18RT1aJLZeu3hjlKykyWM400IxEblmcq';
+$config['stripe_publishable_key'] = 'pk_test_51OhwsEFYjbsGTXVacZ31UEl0CIb8pPMUluKHVEvdOx0Jtla5XVb7VPVbJNyfJsKqOz9N5xLNNAeTevgXSYnpKO9p0050yEekIv';
+$config['stripe_currency']        = 'myr';
 
 /*
 |--------------------------------------------------------------------------

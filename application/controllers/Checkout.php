@@ -43,6 +43,42 @@ class Checkout extends CI_Controller {
 		$this->load->view('main/checkout',$data);
 	}
 
+	function validation(){
+
+    $data = array_merge($this->global_data);
+
+    $this->form_validation->set_rules('Name', 'name', 'required');
+    $this->form_validation->set_rules('Email', 'email', 'required|is_unique[customer.Email]',
+			array('is_unique' => 'Email already exist. Please login to your account')
+		);
+		$this->form_validation->set_rules('MobileNumber', 'mobile number', 'required');
+		$this->form_validation->set_rules('Terms', 'terms', 'required',
+			array('required' => 'You must agree to the Terms & Conditions and Privacy Policy')
+		);
+
+    if ($this->form_validation->run() == FALSE) {
+      // Validation failed
+      $status = false;
+      $error  = $this->form_validation->error_array();
+
+      $response = '';
+      foreach ($error as $key => $value) {
+        $response .= $value.'<br>';
+      }
+      $errorcode = 400;
+
+    } else {
+			$status = true;
+			$response = 'Proceed to payment';
+    }
+
+    $result['token']    = $data['csrf']['hash'];
+    $result['status']   = $status;
+    $result['message']  = $response;
+
+    echo json_encode($result);
+  }
+
 	function payment(){
 
     $data = array_merge($this->global_data);
@@ -149,7 +185,22 @@ class Checkout extends CI_Controller {
 		$this->load->view('details',$data);
 	}
 
-	function stripe(){
+	public function stripe() {
+      \Stripe\Stripe::setApiKey($this->config->item('stripe_api_key'));
+
+      $amount = $this->input->post('amount'); // In cents
+
+      $paymentIntent = \Stripe\PaymentIntent::create([
+          'amount' => $amount,
+          'currency' => 'myr',
+      ]);
+
+      echo json_encode([
+        'clientSecret' => $paymentIntent->client_secret,
+      ]);
+  }
+
+	function stripes(){
 
 		\Stripe\Stripe::setApiKey('sk_test_51OhwsEFYjbsGTXVawadjPAS33ER4cxinsb3cSY1idJqzcOlSjuSUNIeXJSNWgq6dbb18RT1aJLZeu3hjlKykyWM400IxEblmcq');
 

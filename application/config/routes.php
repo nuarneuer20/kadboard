@@ -65,7 +65,8 @@ $route['register'] = 'authentication/register';
 $route['registration'] = 'authentication/registration';
 
 $route['checkout/(:any)'] = 'checkout/validate';
-$route['payment'] = 'checkout/payment';
+$route['validation'] = 'checkout/validation';
+$route['verifiying'] = 'checkout/payment';
 $route['details/(:any)'] = 'checkout/details';
 $route['stripe'] = 'checkout/stripe';
 

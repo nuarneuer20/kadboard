@@ -7,7 +7,7 @@
 document.addEventListener('DOMContentLoaded', function (e) {
   (function () {
     // Variables
-    const creditCardMask = document.querySelector('.credit-card-mask'),
+    const creditCardMask = $('#card-number-element .InputElement'),
       expiryDateMask = document.querySelector('.expiry-date-mask'),
       cvvMask = document.querySelector('.cvv-code-mask'),
       btnReset = document.querySelector('.btn-reset');
@@ -35,7 +35,7 @@ document.addEventListener('DOMContentLoaded', function (e) {
     }
 
     // Init cleave on show modal (To fix the cc image issue)
-    let addNewCCModal = document.getElementById('addNewCCModal');
+    let addNewCCModal = document.getElementById('modalCenter');
     addNewCCModal.addEventListener('show.bs.modal', function (event) {
       initCleave();
     });
