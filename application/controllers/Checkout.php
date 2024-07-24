@@ -79,6 +79,57 @@ class Checkout extends CI_Controller {
     echo json_encode($result);
   }
 
+	function coupon(){
+    $data = array_merge($this->global_data);
+
+		$this->form_validation->set_rules('Coupon', 'coupon', 'required');
+
+		if ($this->form_validation->run() == FALSE) {
+      // Validation failed
+      $status = false;
+			$response = 'No coupon was submitted';
+      $errorcode = 400;
+
+    } else {
+
+			$get = $this->input->post();
+
+			//Check Coupon
+			$coupon = $this->Checkout_model->get_coupon($get['Coupon']);
+
+			if (isset($coupon)) {
+				$usage = $this->Checkout_model->count_coupon($coupon->CouponId);
+				if ($coupon->CouponStatusId == 3 || date('Y-m-d') >= $coupon->ExpiryDate) {
+					$status    = false;
+					$response  = 'Coupon already expired. Please enter another coupon.';
+					$errorcode = 400;
+				}elseif (date('Y-m-d') >= $coupon->ExpiryDate) {
+					$status    = false;
+					$response  = 'Coupon invalid. Please enter correct coupon.';
+					$errorcode = 400;
+				}elseif ($usage == $coupon->Quantity || $usage > $coupon->Quantity) {
+					$status    = false;
+					$response  = 'Coupon has been fully redeemed. Please enter correct coupon.';
+					$errorcode = 400;
+				}else {
+					$status    = true;
+					$response  = 'Coupon valid';
+					$errorcode = 200;
+				}
+			}else {
+				$status    = false;
+				$response  = 'Coupon invalid. Please enter correct coupon';
+				$errorcode = 400;
+			}
+		}
+
+    $result['token']    = $data['csrf']['hash'];
+    $result['status']   = $status;
+    $result['message']  = $response;
+
+    echo json_encode($result);
+  }
+
 	function payment(){
 
     $data = array_merge($this->global_data);

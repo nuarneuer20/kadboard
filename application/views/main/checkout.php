@@ -119,7 +119,10 @@
                         </div>
                         <div class="mb-3">
                           <label for="defaultFormControlInput" class="form-label">Coupon</label>
-                          <input type="text" class="form-control" name="Coupon">
+                          <div class="input-group">
+                            <input type="text" class="form-control" name="Coupon" placeholder="Enter coupon">
+                            <button class="btn btn-outline-primary waves-effect" type="button" id="search-coupon">CHECK COUPON</button>
+                          </div>
                         </div>
                         <div class="mb-2">
                           <div class="form-check">
@@ -294,6 +297,31 @@
       });
       return false;
     });
+
+    $('#search-coupon').on('click', function(){
+      coupon();
+    });
+
+    function coupon(){
+      var csrfName   = $('.txt_csrfname').attr('name');
+      var csrfHash   = $('.txt_csrfname').val();
+
+      var Coupon = $("input[name=Coupon]").val();
+
+      $.ajax({
+        url		   : "<?php echo base_url();?>coupon",
+        type		 : "POST",
+        dataType : "JSON",
+        data		 :{Coupon:Coupon, [csrfName]: csrfHash},
+        success	 :function(data)  {
+          $('.txt_csrfname').val(data.token);
+          notification('black','slideRightBottom','Message',data.message,10000);
+        },
+        error: function(xhr, status, error) {
+          // getToken();
+        }
+      });
+    }
 
     // $("#checkout-form").unbind('submit').bind('submit', function() {
     //   var form = $(this);
