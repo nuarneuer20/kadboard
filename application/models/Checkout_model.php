@@ -15,6 +15,20 @@ class Checkout_model extends CI_Model
     return $query->row();
   }
 
+  function get_package(){
+    $this->db->select('*');
+    $this->db->where('PackageStatusId',1);
+    $query = $this->db->get('package');
+    return $query->result();
+  }
+
+  function get_package_details($id){
+    $this->db->select('*');
+    $this->db->where('PackageId',$id);
+    $query = $this->db->get('package');
+    return $query->row();
+  }
+
   function insert_customer($data){
     $this->db->insert('customer',$data);
     return $this->db->insert_id();

@@ -117,6 +117,17 @@
                             pattern="(\+?6?01)[0-46-9]-*[0-9]{7,8}"
                             autofocus />
                         </div>
+                        <div class="mb-2">
+                          <label for="defaultFormControlInput" class="form-label">Package</label>
+                          <select class="form-control" name="Package" id="PackageId">
+                            <?php foreach ($package as $row): ?>
+                              <option <?php if ($row->PackageId == 2): ?>selected<?php endif; ?> value="<?php echo $row->PackageId; ?>"><?php echo $row->PackageName; ?></option>
+                            <?php endforeach; ?>
+                          </select>
+                          <div class="alert alert-dark mb-0 mt-2" role="alert">
+                            <strong>FEATURES</strong> : &nbsp <span id="features"></span>
+                          </div>
+                        </div>
                         <div class="mb-3">
                           <label for="defaultFormControlInput" class="form-label">Coupon</label>
                           <div class="input-group">
@@ -316,6 +327,33 @@
         success	 :function(data)  {
           $('.txt_csrfname').val(data.token);
           notification('black','slideRightBottom','Message',data.message,10000);
+        },
+        error: function(xhr, status, error) {
+          // getToken();
+        }
+      });
+    }
+
+    $('#PackageId').on('change', function(){
+      get_package();
+    });
+
+    get_package();
+
+    function get_package(){
+      var csrfName   = $('.txt_csrfname').attr('name');
+      var csrfHash   = $('.txt_csrfname').val();
+
+      var Package = $("#PackageId").val();
+
+      $.ajax({
+        url		   : "<?php echo base_url();?>package",
+        type		 : "POST",
+        dataType : "JSON",
+        data		 :{Package:Package, [csrfName]: csrfHash},
+        success	 :function(data)  {
+          $('.txt_csrfname').val(data.token);
+          $('#features').html(data.response.PackageDescription);
         },
         error: function(xhr, status, error) {
           // getToken();

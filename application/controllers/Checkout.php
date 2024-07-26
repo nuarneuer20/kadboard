@@ -39,9 +39,24 @@ class Checkout extends CI_Controller {
 		$data['bottom'] = $this->load->view('templates/main-bottom','',true);
 
 		$data['design'] = $this->Checkout_model->get_design($sku);
+		$data['package'] = $this->Checkout_model->get_package();
 
 		$this->load->view('main/checkout',$data);
 	}
+
+	function package(){
+    $data = array_merge($this->global_data);
+
+		$get = $this->input->post();
+
+		$response = $this->Checkout_model->get_package_details($get['Package']);
+
+    $result['token']    = $data['csrf']['hash'];
+    $result['status']   = true;
+    $result['response']  = $response;
+
+    echo json_encode($result);
+  }
 
 	function validation(){
 
