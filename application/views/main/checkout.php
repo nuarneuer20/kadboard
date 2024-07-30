@@ -9,6 +9,7 @@
   data-template="horizontal-menu-template-no-customizer">
   <head>
     <?php echo $header; ?>
+    <link rel="stylesheet" href="<?php echo base_url(); ?>assets/third-party/notiflix/notiflix-3.2.7.min.css" />
 
     <style>
       .StripeElement {
@@ -169,9 +170,9 @@
                           <tbody>
                             <tr>
                               <td><?php echo $design->DesignSku; ?></td>
-                              <td class="text-center">RM 60.00</td>
+                              <td class="text-center">RM <span class="original">0.00</span> </td>
                               <td class="text-center">1</td>
-                              <td class="text-end">RM 60.00</td>
+                              <td class="text-end">RM <span class="original">0.00</span></td>
                             </tr>
                           </tbody>
                         </table>
@@ -179,19 +180,15 @@
                           <div class="order-calculations">
                             <div class="d-flex justify-content-between mb-2">
                               <span class="w-px-100 text-heading">Subtotal:</span>
-                              <h6 class="mb-0">RM 60.00</h6>
+                              <h6 class="mb-0">RM <span class="original">0.00</span></h6>
                             </div>
                             <div class="d-flex justify-content-between mb-2">
                               <span class="w-px-100 text-heading">Discount:</span>
-                              <h6 class="mb-0">- RM 0.00</h6>
+                              <h6 class="mb-0">RM <span class="discount">0.00</span></h6>
                             </div>
-                            <!-- <div class="d-flex justify-content-between mb-2">
-                              <span class="w-px-100 text-heading">Tax:</span>
-                              <h6 class="mb-0">RM 0.00</h6>
-                            </div> -->
                             <div class="d-flex justify-content-between">
                               <h6 class="w-px-100 mb-0">Total:</h6>
-                              <h6 class="mb-0">RM 60.00</h6>
+                              <h6 class="mb-0">RM <span class="total">0.00</span></h6>
                             </div>
                           </div>
                         </div>
@@ -216,6 +213,8 @@
                 <input type="hidden" name="SubmitEmail" id="email">
                 <input type="hidden" name="SubmitMobileNumber" id="mobilenumber">
                 <input type="hidden" name="SubmitCoupon" id="coupon">
+                <input type="hidden" name="Package" id="package">
+                <input type="hidden" name="DesignId" value="<?php echo $design->DesignId; ?>">
               </form>
 
               <!-- Modal -->
@@ -248,7 +247,7 @@
                             </div>
                           </div>
                           <div class="col-12 mb-4 d-grid">
-                            <button type="submit" class="btn btn-dark">PAY</button>
+                            <button type="submit" id="paynow" class="btn btn-dark">PAY</button>
                           </div>
                           <div class="col-12 text-center">
                             <img src="<?php echo base_url(); ?>assets/stripe/Powered by Stripe - black.svg" height="40px;">
@@ -281,10 +280,30 @@
     <!--/ Layout wrapper -->
 
     <?php echo $bottom; ?>
+    <script src="<?php echo base_url(); ?>assets/third-party/notiflix/notiflix-3.2.7.min.js"></script>
+    <script src="<?php echo base_url(); ?>assets/third-party/notiflix/notiflix-loading-aio-3.2.7.min.js"></script>
+    <script src="<?php echo base_url(); ?>assets/third-party/notiflix/notiflix-aio-3.2.7.min.js"></script>
 
     <script src="https://js.stripe.com/v3/"></script>
 
     <script type="text/javascript">
+    $(document).ajaxStart(function() {
+        Notiflix.Loading.standard();
+    });
+
+    $(document).ajaxStop(function() {
+        Notiflix.Loading.remove();
+    });
+
+    var subtotal = 0;
+    var discount = 0;
+    var total = 0;
+    var name = '';
+    var email = '';
+    var mobilenumber = '';
+    var coupon = '';
+    var package = 0;
+
     $("#checkout-form").unbind('submit').bind('submit', function() {
       var form = $(this);
       $.ajax({
@@ -297,6 +316,11 @@
           $('.txt_csrfname').val(data.token);
           if (data.status == true)
           {
+            name         = data.field.Name;
+            email        = data.field.Email;
+            mobilenumber = data.field.MobileNumber;
+            coupon       = data.field.Coupon;
+            package      = data.field.Package;
             $('#stripe-modal').modal('show');
           }else{
             notification('black','slideTopRight','Message',data.message,10000);
@@ -310,10 +334,10 @@
     });
 
     $('#search-coupon').on('click', function(){
-      coupon();
+      check_coupon();
     });
 
-    function coupon(){
+    function check_coupon(){
       var csrfName   = $('.txt_csrfname').attr('name');
       var csrfHash   = $('.txt_csrfname').val();
 
@@ -326,6 +350,7 @@
         data		 :{Coupon:Coupon, [csrfName]: csrfHash},
         success	 :function(data)  {
           $('.txt_csrfname').val(data.token);
+          get_package();
           notification('black','slideRightBottom','Message',data.message,10000);
         },
         error: function(xhr, status, error) {
@@ -345,15 +370,23 @@
       var csrfHash   = $('.txt_csrfname').val();
 
       var Package = $("#PackageId").val();
+      var Coupon = $("input[name=Coupon]").val();
 
       $.ajax({
         url		   : "<?php echo base_url();?>package",
         type		 : "POST",
         dataType : "JSON",
-        data		 :{Package:Package, [csrfName]: csrfHash},
+        data		 :{Package:Package,Coupon:Coupon, [csrfName]: csrfHash},
         success	 :function(data)  {
           $('.txt_csrfname').val(data.token);
           $('#features').html(data.response.PackageDescription);
+          $('.original').html(data.calculation.original);
+          $('.discount').html(data.calculation.discount);
+          $('.total').html(data.calculation.total);
+
+          subtotal = data.calculation.original;
+          discount = data.calculation.discount;
+          total    = data.calculation.total;
         },
         error: function(xhr, status, error) {
           // getToken();
@@ -361,33 +394,33 @@
       });
     }
 
-    // $("#checkout-form").unbind('submit').bind('submit', function() {
-    //   var form = $(this);
-    //   $.ajax({
-    //     url: form.attr('action'),
-    //     type: form.attr('method'),
-    //     data: form.serialize(),
-    //     dataType: 'json',
-    //     success:function(data)
-    //     {
-    //       $('.txt_csrfname').val(data.token);
-    //       if (data.status == true)
-    //       {
-    //         if (data.login == true) {
-    //           window.location.href = "<?php echo base_url()."main"; ?>";
-    //         }else {
-    //           window.location.href = "<?php echo base_url()."details/"; ?>"+data.message;
-    //         }
-    //       }else{
-    //         notification('black','slideTopRight','Message',data.message,10000);
-    //       }
-    //     },
-    //     error: function(xhr, status, error) {
-    //       notification('black','slideTopRight','Message','Something went wrong. Please try again later.',10000);
-    //     },
-    //   });
-    //   return false;
-    // });
+    $("#hidden-form").unbind('submit').bind('submit', function() {
+      var form = $(this);
+      $.ajax({
+        url: form.attr('action'),
+        type: form.attr('method'),
+        data: form.serialize(),
+        dataType: 'json',
+        success:function(data)
+        {
+          $('.txt_csrfname').val(data.token);
+          if (data.status == true)
+          {
+            if (data.login == true) {
+              window.location.href = "<?php echo base_url()."main"; ?>";
+            }else {
+              window.location.href = "<?php echo base_url()."details/"; ?>"+data.message;
+            }
+          }else{
+            notification('black','slideTopRight','Message',data.message,10000);
+          }
+        },
+        error: function(xhr, status, error) {
+          notification('black','slideTopRight','Message','Something went wrong. Please try again later.',10000);
+        },
+      });
+      return false;
+    });
 
     // Create a Stripe client.
     var stripe = Stripe('<?php echo $this->config->item('stripe_publishable_key'); ?>');
@@ -425,6 +458,8 @@
 
       event.preventDefault();
 
+      $('#paynow').attr('disabled', 'disabled');
+
       if ($('#CardHolderName').val() == '') {
         var errorElement = document.getElementById('card-errors');
         errorElement.textContent = 'Card holder name is required.';
@@ -433,37 +468,83 @@
             type: 'card',
             card: card,
         }).then(function(result) {
-            if (result.error) {
-                var errorElement = document.getElementById('card-errors');
-                errorElement.textContent = result.error.message;
-            } else {
-                $.ajax({
-                    url: '<?php echo base_url('stripe'); ?>',
-                    method: 'POST',
-                    data: {
-                      amount: 200
-                    },
-                    success: function(response) {
-                        var clientSecret = JSON.parse(response).clientSecret;
+          if (result.error) {
+            var errorElement = document.getElementById('card-errors');
+            errorElement.textContent = result.error.message;
+          }else {
+            var csrfName   = $('.txt_csrfname').attr('name');
+            var csrfHash   = $('.txt_csrfname').val();
 
-                        stripe.confirmCardPayment(clientSecret, {
-                            payment_method: result.paymentMethod.id
-                        }).then(function(result) {
-                            if (result.error) {
-                                var errorElement = document.getElementById('card-errors');
-                                errorElement.textContent = result.error.message;
-                            } else {
-                                if (result.paymentIntent.status === 'succeeded') {
-                                    window.location.href = '<?php echo base_url('stripe/success'); ?>';
-                                }
-                            }
-                        });
+            $.ajax({
+                url: '<?php echo base_url('stripe'); ?>',
+                method: 'POST',
+                data: {
+                  Amount: total,
+                  Name: name,
+                  Mobile: mobilenumber,
+                  Email: email,
+                  Coupon: coupon,
+                  SubTotal: subtotal,
+                  Discount: discount,
+                  Total: total,
+                  Package: package,
+                  [csrfName]: csrfHash
+                },
+                success: function(response) {
+                  $('#paynow').removeAttr('disabled');
+                  var transaction = JSON.parse(response).TransactionId;
+                  var clientSecret = JSON.parse(response).clientSecret;
+
+                  stripe.confirmCardPayment(clientSecret, {
+                    payment_method: result.paymentMethod.id
+                  }).then(function(result) {
+                    if (result.error) {
+                      var errorElement = document.getElementById('card-errors');
+
+                      send_error(transaction, result.error.code, result.error.message);
+
+                      errorElement.textContent = result.error.message;
+                    } else {
+                      if (result.paymentIntent.status === 'succeeded') {
+                        $('#name').val(name);
+                        $('#email').val(email);
+                        $('#mobilenumber').val(mobilenumber);
+                        $('#coupon').val(coupon);
+                        $('#package').val(package);
+                        $('#discount').val(discount);
+                        $('#subtotal').val(subtotal);
+                        $('#total').val(total);
+
+                        send_error(transaction, 'success', 'Payment successfully');
+
+                        $('#hidden-form').submit();
+                      }
                     }
-                });
-            }
+                  });
+                }
+            });
+          }
         });
       }
     });
+
+    function send_error(response, code, message){
+      var csrfName   = $('.txt_csrfname').attr('name');
+      var csrfHash   = $('.txt_csrfname').val();
+
+      $.ajax({
+        url		   : "<?php echo base_url();?>error",
+        type		 : "POST",
+        dataType : "JSON",
+        data		 :{TransactionId:response,Code:code ,Message:message	,[csrfName]: csrfHash},
+        success	 :function(data)  {
+          $('.txt_csrfname').val(data.token);
+        },
+        error: function(xhr, status, error) {
+          // getToken();
+        }
+      });
+    }
     </script>
   </body>
 </html>

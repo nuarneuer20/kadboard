@@ -274,7 +274,7 @@ Rakan-rakan:
                         <div class="mb-2">
                           <h5 class="mb-0">Contact Details</h5>
                         </div>
-                        <?php if (empty($contact)) { ?>
+                        <?php $i = 1; if (empty($contact)) { ?>
                           <div id="contactlist">
                             <div class="contact" id="contact-1">
                               <div class="mb-2">

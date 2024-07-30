@@ -60,4 +60,14 @@ class Checkout_model extends CI_Model
     $query = $this->db->get('invitation');
     return $query->num_rows();
   }
+
+  function insert_transaction($data){
+    $this->db->insert('transaction',$data);
+    return $this->db->insert_id();
+  }
+
+  function update_transaction($data){
+    $this->db->where('TransactionId',$data['TransactionId']);
+    return $this->db->update('transaction',$data);
+  }
 }

@@ -51,9 +51,43 @@ class Checkout extends CI_Controller {
 
 		$response = $this->Checkout_model->get_package_details($get['Package']);
 
+		$coupon = $this->Checkout_model->get_coupon($get['Coupon']);
+
+		if (isset($coupon)) {
+			$usage = $this->Checkout_model->count_coupon($coupon->CouponId);
+			if ($coupon->CouponStatusId == 3 || date('Y-m-d') >= $coupon->ExpiryDate) {
+				$status    = false;
+			}elseif (date('Y-m-d') >= $coupon->ExpiryDate) {
+				$status    = false;
+			}elseif ($usage == $coupon->Quantity || $usage > $coupon->Quantity) {
+				$status    = false;
+			}else {
+				$status    = true;
+			}
+		}else {
+			$status    = false;
+		}
+
+		$send['original'] = $response->PackagePrice;
+		if ($status == true) {
+			if ($coupon->Discount != 0) {
+				$discount = ($response->PackagePrice * $coupon->Discount) / 100;
+				$send['discount'] = number_format($discount,2);
+				$total = $send['original'] - $send['discount'];
+				$send['total'] = number_format($total,2);
+			}else {
+				$send['discount'] = '0.00';
+				$send['total'] = $response->PackagePrice;
+			}
+		}else {
+			$send['discount'] = '0.00';
+			$send['total'] = $response->PackagePrice;
+		}
+
     $result['token']    = $data['csrf']['hash'];
     $result['status']   = true;
     $result['response']  = $response;
+		$result['calculation']  = $send;
 
     echo json_encode($result);
   }
@@ -90,6 +124,7 @@ class Checkout extends CI_Controller {
     $result['token']    = $data['csrf']['hash'];
     $result['status']   = $status;
     $result['message']  = $response;
+		$result['field']    = $this->input->post();
 
     echo json_encode($result);
   }
@@ -149,85 +184,43 @@ class Checkout extends CI_Controller {
 
     $data = array_merge($this->global_data);
 
-    $this->form_validation->set_rules('Name', 'name', 'required');
-    $this->form_validation->set_rules('Email', 'email', 'required|is_unique[customer.Email]',
-			array('is_unique' => 'Email already exist. Please login to your account')
-		);
-		$this->form_validation->set_rules('MobileNumber', 'mobile number', 'required');
-		$this->form_validation->set_rules('CardName', 'card holder name', 'required');
-		// $this->form_validation->set_rules('Coupon', 'coupon', 'required');
-		$this->form_validation->set_rules('Terms', 'terms', 'required',
-			array('required' => 'You must agree to the Terms & Conditions and Privacy Policy')
-		);
+		$get = $this->input->post();
 
-    if ($this->form_validation->run() == FALSE) {
-      // Validation failed
-      $status = false;
-      $error  = $this->form_validation->error_array();
+		if ($data['logged_in'] != TRUE) {
+			//Generate Login
+			$password = rand(1000,9999);
+			$send = [
+				'CustomerName' => $get['SubmitName'],
+				'Email'        => $get['SubmitEmail'],
+				'MobileNumber' => $get['SubmitMobileNumber'],
+				'Password'     => hashids_encrypt($password),
+			];
 
-      $response = '';
-      foreach ($error as $key => $value) {
-        $response .= $value.'<br>';
-      }
-      $errorcode = 400;
+			$data['CustomerId'] = $this->Checkout_model->insert_customer($send);
+			$data['CreatedBy'] = $data['CustomerId'];
+		}
 
-    } else {
-			$get = $this->input->post();
+		$coupon = $this->Checkout_model->get_coupon($get['SubmitCoupon']);
 
-			//Check Coupon
-			$coupon = $this->Checkout_model->get_coupon($get['Coupon']);
+		$cid = 0;
+		if (isset($coupon)) {
+			$cid = $coupon->CouponId;
+		}
 
-			if (isset($coupon)) {
-				$usage = $this->Checkout_model->count_coupon($coupon->CouponId);
-				if ($coupon->CouponStatusId == 3 || date('Y-m-d') >= $coupon->ExpiryDate) {
-					$status    = false;
-					$response  = 'Coupon already expired. Please enter another coupon.';
-					$errorcode = 400;
-				}elseif (date('Y-m-d') >= $coupon->ExpiryDate) {
-					$status    = false;
-					$response  = 'Coupon invalid. Please enter correct coupon.';
-					$errorcode = 400;
-				}elseif ($usage == $coupon->Quantity || $usage > $coupon->Quantity) {
-					$status    = false;
-					$response  = 'Coupon has been fully redeemed. Please enter correct coupon.';
-					$errorcode = 400;
-				}else {
-					if ($data['logged_in'] != TRUE) {
-						//Generate Login
-						$password = rand(1000,9999);
-						$send = [
-							'CustomerName' => $get['Name'],
-							'Email'        => $get['Email'],
-							'MobileNumber' => $get['MobileNumber'],
-							'Password'     => hashids_encrypt($password),
-						];
+		//Assign Invitation
+		$loggerid = $this->App_logger_model->insert_app_logger($data);
+		$invite = [
+			'CustomerId'         => $data['CustomerId'],
+			'DesignId'           => $get['DesignId'],
+			'CouponId'           => $cid,
+			'InvitationStatusId' => 1,
+			'AppLoggerId'        => $loggerid,
+		];
+		$this->Checkout_model->create_invitation($invite);
 
-			      $data['CustomerId'] = $this->Checkout_model->insert_customer($send);
-						$data['CreatedBy'] = $data['CustomerId'];
-					}
-
-					//Assign Invitation
-					$loggerid = $this->App_logger_model->insert_app_logger($data);
-					$invite = [
-						'CustomerId'         => $data['CustomerId'],
-						'DesignId'           => $get['DesignId'],
-						'CouponId'           => $coupon->CouponId,
-						'InvitationStatusId' => 1,
-						'AppLoggerId'        => $loggerid,
-					];
-		      $this->Checkout_model->create_invitation($invite);
-
-					$status    = true;
-					$response  = hashids_encrypt($data['CustomerId'],'config',8);
-					$errorcode = 200;
-				}
-			}else {
-				$status    = false;
-				$response  = 'Coupon invalid. Please enter correct coupon';
-				$errorcode = 400;
-			}
-
-    }
+		$status    = true;
+		$response  = hashids_encrypt($data['CustomerId'],'config',8);
+		$errorcode = 200;
 
     $result['token']    = $data['csrf']['hash'];
     $result['status']   = $status;
@@ -252,71 +245,64 @@ class Checkout extends CI_Controller {
 	}
 
 	public function stripe() {
-      \Stripe\Stripe::setApiKey($this->config->item('stripe_api_key'));
+		$data = array_merge($this->global_data);
 
-      $amount = $this->input->post('amount'); // In cents
+    \Stripe\Stripe::setApiKey($this->config->item('stripe_api_key'));
 
-      $paymentIntent = \Stripe\PaymentIntent::create([
-          'amount' => $amount,
-          'currency' => 'myr',
-      ]);
+		$get = $this->input->post();
 
-      echo json_encode([
-        'clientSecret' => $paymentIntent->client_secret,
-      ]);
+		$coupon = $this->Checkout_model->get_coupon($get['Coupon']);
+
+		$CouponId = 0;
+		if (isset($coupon)) {
+			$CouponId = $coupon->CouponId;
+		}
+
+		$send = [
+			'Name' => $get['Name'],
+			'Email' => $get['Email'],
+			'MobileNumber' => $get['Mobile'],
+			'CouponId' => $CouponId,
+			'PackageId' => $get['Package'],
+			'SubTotal' => $get['SubTotal'],
+			'Discount' => $get['Discount'],
+			'Total' => $get['Total'],
+			'TransactionDate' => date('Y-m-d H:i:s')
+		];
+
+		$TransactionId = $this->Checkout_model->insert_transaction($send);
+
+		$amount = $get['Amount'] * 100;
+
+    $paymentIntent = \Stripe\PaymentIntent::create([
+        'amount'        => $amount,
+        'currency'      => 'myr',
+				'description'   => 'KADBOARD: '.$TransactionId,
+				'receipt_email' => $get['Email'],
+    ]);
+
+		$result['token']         = $data['csrf']['hash'];
+		$result['clientSecret']  = $paymentIntent->client_secret;
+		$result['TransactionId'] = hashids_encrypt($TransactionId,'config',8);
+
+    echo json_encode($result);
   }
 
-	function stripes(){
+	function error(){
+    $data = array_merge($this->global_data);
 
-		\Stripe\Stripe::setApiKey('sk_test_51OhwsEFYjbsGTXVawadjPAS33ER4cxinsb3cSY1idJqzcOlSjuSUNIeXJSNWgq6dbb18RT1aJLZeu3hjlKykyWM400IxEblmcq');
+		$get = $this->input->post();
 
-		if ($_POST) {
-        // Retrieve the form data
-        $token = $this->input->post('stripeToken');
-        $email = $this->input->post('stripeEmail');
+		$send = [
+			'TransactionId' => hashids_decrypt($get['TransactionId'],'config',8),
+			'ReturnCode'    => $get['Code'],
+			'ReturnMessage' => $get['Message'],
+		];
+		$this->Checkout_model->update_transaction($send);
 
-        try {
-            // Create a charge with the specified currency
-            $charge = \Stripe\Charge::create([
-                'amount' => 5000, // Amount in cents
-                'currency' => 'myr', // Set the currency to Euros
-                'source' => $token,
-                'description' => 'Test charge from CodeIgniter',
-                'receipt_email' => $email,
-            ]);
+    $result['token']    = $data['csrf']['hash'];
 
-            // Send a success message
-            $data['success'] = 'Payment successful!';
-        } catch (\Stripe\Exception\CardException $e) {
-            // Send an error message
-            $data['error'] = $e->getMessage();
-        }
-
-        // Load a view and pass the message
-        // $this->load->view('payment_status', $data);
-    }
-
-		echo "<pre>";
-		print_r($_POST);
-		echo "</pre>";
-
-		die;
-
-		// echo "string";
-		// die;
-		//
-		// \Stripe\Stripe::setApiKey($this->config->item('stripe_secret'));
-		//
-		// \Stripe\Charge::create ([
-		// 				"amount" => 100 * 120,
-		// 				"currency" => "inr",
-		// 				"source" => $this->input->post('stripeToken'),
-		// 				"description" => "Dummy stripe payment."
-		// ]);
-		//
-		// $this->session->set_flashdata('success', 'Payment has been successful.');
-		//
-		// redirect('/make-stripe-payment', 'refresh');
-	}
+    echo json_encode($result);
+  }
 
 }
