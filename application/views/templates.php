@@ -56,7 +56,7 @@
     }
     </style>
   </head>
-	
+
 	<!-- Google tag (gtag.js) -->
 	<script async src="https://www.googletagmanager.com/gtag/js?id=G-MJ028CFBL2"></script>
 	<script>
@@ -66,7 +66,7 @@
 
 	  gtag('config', 'G-MJ028CFBL2');
 	</script>
-	
+
   <body>
     <script src="<?php echo base_url(); ?>assets/vendor/js/dropdown-hover.js"></script>
     <script src="<?php echo base_url(); ?>assets/vendor/js/mega-dropdown.js"></script>
@@ -173,10 +173,10 @@
         <div id="landingHero" class="position-relative">
           <div class="container">
             <div class="hero-text-box text-center">
-              <h1 class="text-primary hero-title display-6 fw-bold">Free premium online invitations</h1>
-              <h2 class="hero-sub-title h6 mb-4 pb-1">
+              <h1 class="text-primary hero-title display-6 fw-bold">Premium online invitation cards</h1>
+              <!-- <h2 class="hero-sub-title h6 mb-4 pb-1">
                 Offer valid for the early birds only!
-              </h2>
+              </h2> -->
             </div>
 
             <div class="row">

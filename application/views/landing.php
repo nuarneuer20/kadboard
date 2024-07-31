@@ -16,7 +16,7 @@
     }
     </style>
   </head>
-	
+
 	<!-- Google tag (gtag.js) -->
 	<script async src="https://www.googletagmanager.com/gtag/js?id=G-MJ028CFBL2"></script>
 	<script>
@@ -137,7 +137,7 @@
               <h2 class="hero-sub-title h6 mb-4 pb-1">
                 A User-Friendly & easy to use online invitation<br class="d-none d-lg-block" />
                 <!-- Pelbagai Design yang Menarik -->
-                Free for Early Adopters
+                <!-- Free for Early Adopters -->
               </h2>
               <div class="landing-hero-btn d-inline-block position-relative">
                 <span class="hero-btn-item position-absolute d-none d-md-flex text-heading">Get it now

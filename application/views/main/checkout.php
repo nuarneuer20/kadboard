@@ -131,6 +131,9 @@
                         </div>
                         <div class="mb-3">
                           <label for="defaultFormControlInput" class="form-label">Coupon</label>
+                          <div class="alert alert-primary alert-dismissible mb-2" role="alert">
+                            Sila dapat coupon diskaun di tiktok <a href="https://www.tiktok.com/@kadboard.com?lang=en" target="_blank">kadboard.com</a>
+                          </div>
                           <div class="input-group">
                             <input type="text" class="form-control" name="Coupon" placeholder="Enter coupon">
                             <button class="btn btn-outline-primary waves-effect" type="button" id="search-coupon">CHECK COUPON</button>
@@ -215,6 +218,7 @@
                 <input type="hidden" name="SubmitCoupon" id="coupon">
                 <input type="hidden" name="Package" id="package">
                 <input type="hidden" name="DesignId" value="<?php echo $design->DesignId; ?>">
+                <input type="hidden" class="txt_csrfname" name="<?= $this->security->get_csrf_token_name(); ?>" value="<?= $this->security->get_csrf_hash(); ?>">
               </form>
 
               <!-- Modal -->
@@ -253,6 +257,7 @@
                             <img src="<?php echo base_url(); ?>assets/stripe/Powered by Stripe - black.svg" height="40px;">
                           </div>
                         </div>
+                        <input type="hidden" class="txt_csrfname" name="<?= $this->security->get_csrf_token_name(); ?>" value="<?= $this->security->get_csrf_hash(); ?>">
                       </form>
                     </div>
                   </div>
@@ -287,13 +292,13 @@
     <script src="https://js.stripe.com/v3/"></script>
 
     <script type="text/javascript">
-    $(document).ajaxStart(function() {
-        Notiflix.Loading.standard();
-    });
-
-    $(document).ajaxStop(function() {
-        Notiflix.Loading.remove();
-    });
+    // $(document).ajaxStart(function() {
+    //     Notiflix.Loading.standard();
+    // });
+    //
+    // $(document).ajaxStop(function() {
+    //     Notiflix.Loading.remove();
+    // });
 
     var subtotal = 0;
     var discount = 0;
@@ -458,12 +463,13 @@
 
       event.preventDefault();
 
-      $('#paynow').attr('disabled', 'disabled');
-
       if ($('#CardHolderName').val() == '') {
         var errorElement = document.getElementById('card-errors');
         errorElement.textContent = 'Card holder name is required.';
       }else {
+        $('#paynow').attr('disabled', 'disabled');
+        Notiflix.Loading.standard();
+
         stripe.createPaymentMethod({
             type: 'card',
             card: card,
@@ -471,6 +477,8 @@
           if (result.error) {
             var errorElement = document.getElementById('card-errors');
             errorElement.textContent = result.error.message;
+            $('#paynow').removeAttr('disabled');
+            Notiflix.Loading.remove();
           }else {
             var csrfName   = $('.txt_csrfname').attr('name');
             var csrfHash   = $('.txt_csrfname').val();
@@ -491,9 +499,10 @@
                   [csrfName]: csrfHash
                 },
                 success: function(response) {
-                  $('#paynow').removeAttr('disabled');
                   var transaction = JSON.parse(response).TransactionId;
                   var clientSecret = JSON.parse(response).clientSecret;
+
+                  get_token();
 
                   stripe.confirmCardPayment(clientSecret, {
                     payment_method: result.paymentMethod.id
@@ -504,6 +513,9 @@
                       send_error(transaction, result.error.code, result.error.message);
 
                       errorElement.textContent = result.error.message;
+
+                      $('#paynow').removeAttr('disabled');
+                      Notiflix.Loading.remove();
                     } else {
                       if (result.paymentIntent.status === 'succeeded') {
                         $('#name').val(name);
@@ -545,6 +557,21 @@
         }
       });
     }
+
+    function get_token(){
+      $.ajax({
+        url		   : "<?php echo base_url();?>get_token",
+        type		 : "GET",
+        dataType : "JSON",
+        success	 :function(data)  {
+          $('.txt_csrfname').val(data.token);
+        },
+        error: function(xhr, status, error) {
+          // getToken();
+        }
+      });
+    }
+
     </script>
   </body>
 </html>

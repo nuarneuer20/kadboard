@@ -72,6 +72,7 @@ $route['verifiying'] = 'checkout/payment';
 $route['details/(:any)'] = 'checkout/details';
 $route['stripe'] = 'checkout/stripe';
 $route['error'] = 'checkout/error';
+$route['get_token'] = 'checkout/get_token';
 
 $route['guest/(:any)'] = 'guest/guest';
 $route['modify/(:any)'] = 'main/modify';

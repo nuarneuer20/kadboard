@@ -305,4 +305,13 @@ class Checkout extends CI_Controller {
     echo json_encode($result);
   }
 
+	function get_token(){
+    $data = array_merge($this->global_data);
+
+    $result['token']    = $data['csrf']['hash'];
+    echo json_encode($result);
+  }
+
+
+
 }
