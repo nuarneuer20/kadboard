@@ -77,7 +77,7 @@
                 <a class="nav-link fw-medium" href="#landingContact">Contact us</a>
               </li>
 							<li class="nav-item">
-                <a class="nav-link fw-medium" href="<?php echo base_url(); ?>templates">Templates</a>
+                <a class="nav-link fw-medium" href="<?php echo base_url(); ?>kad-kahwin">Kad Kahwin</a>
               </li>
             </ul>
           </div>
@@ -146,11 +146,11 @@
                     alt="Join community arrow"
                     class="scaleX-n1-rtl">
                 </span>
-                <a href="<?php echo base_url(); ?>templates" class="btn btn-primary btn-lg">Premium Template</a>
+                <a href="<?php echo base_url(); ?>kad-kahwin" class="btn btn-primary btn-lg">Premium Template</a>
               </div>
             </div>
             <div id="heroDashboardAnimation" class="hero-animation-img mt-5">
-              <a href="<?php echo base_url(); ?>templates" target="_blank">
+              <a href="<?php echo base_url(); ?>kad-kahwin" target="_blank">
                 <div id="heroAnimationImg" class="position-relative hero-dashboard-img text-center" style="width: 80%;">
                   <img
                     src="<?php echo base_url(); ?>assets/kad/landing.png"

@@ -117,7 +117,7 @@
                 <a class="nav-link fw-medium" href="<?php echo base_url(); ?>#landingContact">Contact Us</a>
               </li>
 							<li class="nav-item active">
-                <a class="nav-link fw-medium" aria-current="page" href="<?php echo base_url(); ?>templates">Templates</a>
+                <a class="nav-link fw-medium" aria-current="page" href="<?php echo base_url(); ?>kad-kahwin">Kad Kahwin</a>
               </li>
             </ul>
           </div>
@@ -173,7 +173,7 @@
         <div id="landingHero" class="position-relative">
           <div class="container">
             <div class="hero-text-box text-center">
-              <h1 class="text-primary hero-title display-6 fw-bold">Premium online invitation cards</h1>
+              <h1 class="text-primary hero-title display-6 fw-bold">Kad Kahwin Premium</h1>
               <!-- <h2 class="hero-sub-title h6 mb-4 pb-1">
                 Offer valid for the early birds only!
               </h2> -->
@@ -194,11 +194,11 @@
                             <button class="btn btn-dark">CHOOSE</button>
                           </div>
                         </a>
-                        <a target="_blank" href="<?php echo base_url(); ?>preview/<?php echo $row->DesignSku; ?>">
+                        <!-- <a target="_blank" href="<?php echo base_url(); ?>preview/<?php echo $row->DesignSku; ?>"> -->
                           <div class="d-grid gap-2">
-                            <button class="btn btn-light">PREVIEW</button>
+                            <button class="btn btn-light preview" data-sku="<?php echo $row->DesignSku; ?>">PREVIEW</button>
                           </div>
-                        </a>
+                        <!-- </a> -->
                       </div>
                   </div>
                 </div>
@@ -215,9 +215,71 @@
 
     </div>
 
+    <!-- Modal -->
+    <div class="modal fade" id="previewmodal" tabindex="-1" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="modalCenterTitle">Preview Kad Kahwin</h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <div class="row">
+              <?php foreach ($package as $row): ?>
+                <div class="col-md-12 text-center mb-4 d-grid">
+                  <div class="alert alert-secondary mb-2" role="alert">
+                    <strong>FUNGSI <?php echo $row->PackageName; ?></strong>: <?php echo $row->PackageDescription; ?>
+                  </div>
+                  <button type="button" class="btn btn-dark viewnow" name="button">Lihat Kad Kahwin <?php echo $row->PackageName; ?></button>
+                </div>
+              <?php endforeach; ?>
+            </div>
+            <div class="row g-4">
+              <div class="col mb-0">
+                <label for="emailWithTitle" class="form-label">Email</label>
+                <input
+                  type="email"
+                  id="emailWithTitle"
+                  class="form-control"
+                  placeholder="xxxx@xxx.xx" />
+              </div>
+              <div class="col mb-0">
+                <label for="dobWithTitle" class="form-label">DOB</label>
+                <input type="date" id="dobWithTitle" class="form-control" />
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-label-secondary" data-bs-dismiss="modal">
+              Close
+            </button>
+            <button type="button" class="btn btn-primary">Save changes</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+
     <!-- / Sections:End -->
 
     <?php echo $footer; ?>
+
+    <script type="text/javascript">
+      var sku = '';
+      $('.preview').on('click', function(){
+        sku = $(this).data('sku');
+        $('#previewmodal').modal('show');
+      });
+
+      $('.viewnow').on('click', function(){
+        window.open('<?php echo base_url(); ?>preview/'+sku, '_blank');
+      });
+    </script>
 
     <script>
 
