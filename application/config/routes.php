@@ -55,7 +55,7 @@ $route['translate_uri_dashes'] = FALSE;
 
 //ENGLISH
 $route['contact'] = 'landing/contact';
-$route['templates'] = 'landing/templates';
+$route['kad-kahwin'] = 'landing/templates';
 $route['preview/(:any)'] = 'preview/display';
 
 $route['login'] = 'authentication';

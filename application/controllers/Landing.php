@@ -31,6 +31,7 @@ class Landing extends CI_Controller {
     $data['footer'] = $this->load->view('templates/web-footer','',true);
 
 		$data['design'] = $this->Landing_model->design();
+		$data['package'] = $this->Landing_model->package();
 
 		$this->load->view('templates',$data);
 	}
