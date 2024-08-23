@@ -58,6 +58,10 @@
         color: #fa755a;
         margin-top: 5px;
       }
+
+      .none{
+        display: none!important;
+      }
     </style>
   </head>
 
@@ -205,7 +209,8 @@
                     <div class="d-grid gap-2">
                       <input type="hidden" name="DesignId" value="<?php echo $design->DesignId; ?>">
                       <input type="hidden" class="txt_csrfname" name="<?= $this->security->get_csrf_token_name(); ?>" value="<?= $this->security->get_csrf_hash(); ?>">
-                      <button type="submit" name="button" class="btn btn-dark">PAY WITH DEBIT/CREDIT</button>
+                      <button type="submit" name="button" id="PayStripe" class="btn btn-dark">PAY WITH DEBIT/CREDIT</button>
+                      <!-- <button type="submit" name="button" id="Freebies" class="btn btn-dark none">REDEEM COUPON</button> -->
                     </div>
                   </div>
                 </div>
@@ -326,7 +331,11 @@
             mobilenumber = data.field.MobileNumber;
             coupon       = data.field.Coupon;
             package      = data.field.Package;
-            $('#stripe-modal').modal('show');
+            if (data.message == 'Redeemed') {
+              freebies();
+            }else {
+              $('#stripe-modal').modal('show');
+            }
           }else{
             notification('black','slideTopRight','Message',data.message,10000);
           }
@@ -355,6 +364,7 @@
         data		 :{Coupon:Coupon, [csrfName]: csrfHash},
         success	 :function(data)  {
           $('.txt_csrfname').val(data.token);
+          $('#PayStripe').html(data.button);
           get_package();
           notification('black','slideRightBottom','Message',data.message,10000);
         },
@@ -426,6 +436,22 @@
       });
       return false;
     });
+
+    // $('#Freebies').on('click', function(){
+    //   freebies();
+    // });
+
+    function freebies(){
+      $('#name').val(name);
+      $('#email').val(email);
+      $('#mobilenumber').val(mobilenumber);
+      $('#coupon').val(coupon);
+      $('#package').val(package);
+      $('#discount').val(discount);
+      $('#subtotal').val(subtotal);
+      $('#total').val(total);
+      $('#hidden-form').submit();
+    }
 
     // Create a Stripe client.
     var stripe = Stripe('<?php echo $this->config->item('stripe_publishable_key'); ?>');

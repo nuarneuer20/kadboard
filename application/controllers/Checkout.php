@@ -118,7 +118,28 @@ class Checkout extends CI_Controller {
 
     } else {
 			$status = true;
-			$response = 'Proceed to payment';
+      $get = $this->input->post();
+			$coupon = $this->Checkout_model->get_coupon($get['Coupon']);
+
+			if (isset($coupon)) {
+				$usage = $this->Checkout_model->count_coupon($coupon->CouponId);
+				if ($coupon->CouponStatusId == 3 || date('Y-m-d') >= $coupon->ExpiryDate) {
+					$response = 'Proceed to payment';
+				}elseif (date('Y-m-d') >= $coupon->ExpiryDate) {
+					$response = 'Proceed to payment';
+				}elseif ($usage == $coupon->Quantity || $usage > $coupon->Quantity) {
+					$response = 'Proceed to payment';
+				}else {
+					if ($coupon->Discount == 0) {
+						$response = 'Redeemed';
+					}else {
+						$response = 'Proceed to payment';
+					}
+				}
+			}else {
+				$response = 'Proceed to payment';
+			}
+
     }
 
     $result['token']    = $data['csrf']['hash'];
@@ -146,7 +167,7 @@ class Checkout extends CI_Controller {
 
 			//Check Coupon
 			$coupon = $this->Checkout_model->get_coupon($get['Coupon']);
-
+			$button = 'PAY WITH DEBIT/CREDIT';
 			if (isset($coupon)) {
 				$usage = $this->Checkout_model->count_coupon($coupon->CouponId);
 				if ($coupon->CouponStatusId == 3 || date('Y-m-d') >= $coupon->ExpiryDate) {
@@ -165,6 +186,11 @@ class Checkout extends CI_Controller {
 					$status    = true;
 					$response  = 'Coupon valid';
 					$errorcode = 200;
+					if ($coupon->Discount == 0) {
+						$button = 'REDEEM COUPON';
+					}else {
+						$button = 'PAY WITH DEBIT/CREDIT';
+					}
 				}
 			}else {
 				$status    = false;
@@ -176,6 +202,7 @@ class Checkout extends CI_Controller {
     $result['token']    = $data['csrf']['hash'];
     $result['status']   = $status;
     $result['message']  = $response;
+		$result['button']   = $button;
 
     echo json_encode($result);
   }
