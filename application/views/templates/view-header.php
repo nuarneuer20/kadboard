@@ -146,7 +146,7 @@ nav{
 }
 
 .bg-image{
-  background-image: url(<?php echo base_url().$DesignUrl; ?>);
+  background-image: url(<?php echo base_url().$DesignUrlMain; ?>);
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
@@ -211,7 +211,7 @@ li span {
 }
 
 .snow {
-  background: <?php echo $DesignColor; ?>!important;
+  background: <?php echo $details->SnowColor? $details->SnowColor:$details->DesignColor; ?>!important;
 }
 
 </style>

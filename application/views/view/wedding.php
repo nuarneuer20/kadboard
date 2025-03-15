@@ -17,8 +17,12 @@
     <?php echo $header; ?>
 
     <style media="screen">
+      .opening-color{
+        color: <?php echo $details->OpeningColor? $details->OpeningColor:$details->TitleColor; ?>!important;
+      }
+
       .title-color{
-        color: <?php echo $details->TitleColor; ?>!important;
+        color: <?php echo $details->MainColor? $details->MainColor:$details->TitleColor; ?>!important;
       }
 
       .sepia { filter: invert(1%) sepia(1%) saturate(1%) hue-rotate(1deg) brightness(1000%) contrast(80%); }
@@ -235,11 +239,11 @@
 
     <div id="start" class="start">
       <div class="inside">
-        <h5 class="mb-4 title-color"><?php echo $details->EventType; ?></h5>
+        <h5 class="mb-4 opening-color"><?php echo $details->EventType; ?></h5>
         <?php foreach ($bride as $row): ?>
-          <h6 class="wedding-font wedding-title title-color"><?php echo nl2br(ucwords(strtolower($row->BrideName))); ?></h6>
+          <h6 class="wedding-font wedding-title opening-color"><?php echo nl2br(ucwords(strtolower($row->BrideName))); ?></h6>
         <?php endforeach; ?>
-        <small class="title-color">
+        <small class="opening-color">
           <i>*Kad undangan ini mengandungi lagu.</i>
         </small>
         <br>

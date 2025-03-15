@@ -127,6 +127,8 @@ class Main extends CI_Controller {
 
       $inviteid = hashids_decrypt($get['InvitationId']);
 
+      if (isset($get['HideCustom'])) { $custom = 1; }else { $custom = 0; }
+      if (isset($get['HideDetails'])) { $details = 1; }else { $details = 0; }
       if (isset($get['ShowOpening'])) { $opening = 1; }else { $opening = 0; }
       if (isset($get['ShowAttendance'])) { $attend = 1; }else { $attend = 0; }
       if (isset($get['ShowDays'])) { $showday = 1; }else { $showday = 0; }
@@ -154,6 +156,11 @@ class Main extends CI_Controller {
         'ShowDay'           => $showday,
         'ShowSpeech'        => $showspeech,
         'ShowSnow'          => $showsnow,
+        'HideCustom'        => $custom,
+        'HideDetails'       => $details,
+        'OpeningColor'      => $get['OpeningColor'],
+        'MainColor'         => $get['MainColor'],
+        'SnowColor'         => $get['SnowColor'],
       ];
       $this->Main_model->update_invite($invite);
 
@@ -233,6 +240,13 @@ class Main extends CI_Controller {
         }
       }
 
+      //INSERT IMAGE
+      if(isset($_FILES['OpeningBackground'])){
+        $this->upload_opening($get);
+        sleep(1);
+      }
+      $this->upload_main($get);
+
       $status    = true;
       $response  = 'Your online invitation has been saved';
       $errorcode = 200;
@@ -243,6 +257,142 @@ class Main extends CI_Controller {
     $result['message']  = $response;
 
     echo json_encode($result);
+  }
+
+  function upload_opening($get)
+  {
+		$data = array_merge($this->global_data);
+
+    $_FILES['file'] = $_FILES['OpeningBackground'];
+
+		$foldertype = $get['InvitationId'];
+
+    $result = '';
+
+    if(isset($_FILES['file'])){
+
+			if (!is_dir('custom/')){
+				mkdir('./custom/', 0777, true);
+			}
+
+	    $dir_exist = true; // flag for checking the directory exist or not
+			if (!is_dir('custom/'.$foldertype.'/')){
+        mkdir('./custom/'.$foldertype.'/', 0777, true);
+        $dir_exist = false; // dir not exist
+      }
+
+      $array            = explode('.', $_FILES['file']['name']);
+      $extension        = end($array);
+      $originalFileName = str_replace(' ', '_', $array[0]);
+      $originalName     = $array[0];
+			$newFileName      = 'opening_'.date('d_m_Y_G_i_s').".".$extension;
+
+      $data['NewFileName']      = $newFileName;
+      $data['OriginalFileName'] = $_FILES['file']['name'];
+      $data['NewPath']          = "custom/$foldertype/".$newFileName;
+
+      $config['file_name']     = $newFileName;
+      $config['upload_path']   = "custom/$foldertype/";
+      $config['allowed_types'] = 'png|jpeg|jpg';
+      $config['max_size']      = '100000';
+
+      $this->load->library('upload', $config);
+      $this->upload->initialize($config);
+
+      $data['upload_data'] = '';
+
+      if (!$this->upload->do_upload('file',$newFileName)) {
+        $data['invalid'] = FALSE;
+        $data            = array('msg' => $this->upload->display_errors());
+        $result          = 'Please upload required background';
+      }else {
+        $data['invalid']       = FALSE;
+        $upload_data           = $this->upload->data();
+        $downloadsData['file'] = $upload_data['file_name'];
+
+        //REMOVE OLD FILE
+        $chekfile = $this->Main_model->check_file(hashids_decrypt($get['InvitationId']));
+
+        if ($chekfile->OpeningBackground != '') {
+          unlink($chekfile->OpeningBackground);
+        }
+
+        $invite = [
+          'InvitationId'      => hashids_decrypt($get['InvitationId']),
+          'OpeningBackground' => $data['NewPath'],
+        ];
+        $this->Main_model->update_invite($invite);
+      }
+	  }
+	  return $result;
+  }
+
+  function upload_main($get)
+  {
+		$data = array_merge($this->global_data);
+
+    $_FILES['file'] = $_FILES['MainBackground'];
+
+		$foldertype = $get['InvitationId'];
+
+    $result = '';
+
+    if(isset($_FILES['file'])){
+
+			if (!is_dir('custom/')){
+				mkdir('./custom/', 0777, true);
+			}
+
+	    $dir_exist = true; // flag for checking the directory exist or not
+			if (!is_dir('custom/'.$foldertype.'/')){
+        mkdir('./custom/'.$foldertype.'/', 0777, true);
+        $dir_exist = false; // dir not exist
+      }
+
+      $array            = explode('.', $_FILES['file']['name']);
+      $extension        = end($array);
+      $originalFileName = str_replace(' ', '_', $array[0]);
+      $originalName     = $array[0];
+			$newFileName      = 'main_'.date('d_m_Y_G_i_s').".".$extension;
+
+      $data['NewFileName']      = $newFileName;
+      $data['OriginalFileName'] = $_FILES['file']['name'];
+      $data['NewPath']          = "custom/$foldertype/".$newFileName;
+
+      $config['file_name']     = $newFileName;
+      $config['upload_path']   = "custom/$foldertype/";
+      $config['allowed_types'] = 'png|jpeg|jpg';
+      $config['max_size']      = '100000';
+
+      $this->load->library('upload', $config);
+      $this->upload->initialize($config);
+
+      $data['upload_data'] = '';
+
+      if (!$this->upload->do_upload('file',$newFileName)) {
+        $data['invalid'] = FALSE;
+        $data            = array('msg' => $this->upload->display_errors());
+        $result          = 'Please upload required background';
+      }else {
+        $data['invalid']       = FALSE;
+        $upload_data           = $this->upload->data();
+        $downloadsData['file'] = $upload_data['file_name'];
+
+        //REMOVE OLD FILE
+        $chekfile = $this->Main_model->check_file(hashids_decrypt($get['InvitationId']));
+
+        if ($chekfile->MainBackground != '') {
+          unlink($chekfile->MainBackground);
+        }
+
+        $invite = [
+          'InvitationId'      => hashids_decrypt($get['InvitationId']),
+          'MainBackground'    => $data['NewPath'],
+        ];
+        $this->Main_model->update_invite($invite);
+      }
+	  }
+	  return $result;
   }
 
   function remove(){

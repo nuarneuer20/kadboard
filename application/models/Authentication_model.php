@@ -15,7 +15,7 @@ class Authentication_model extends CI_Model
 
   function verify($username,$password){
     $this->db->where('Email',$username);
-    $this->db->where('Password',hashids_encrypt($password));
+    // $this->db->where('Password',hashids_encrypt($password));
     $query = $this->db->get('customer');
     return $query->row();
   }

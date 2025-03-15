@@ -238,27 +238,13 @@
                 </div>
               <?php endforeach; ?>
             </div>
-            <div class="row g-4">
-              <div class="col mb-0">
-                <label for="emailWithTitle" class="form-label">Email</label>
-                <input
-                  type="email"
-                  id="emailWithTitle"
-                  class="form-control"
-                  placeholder="xxxx@xxx.xx" />
-              </div>
-              <div class="col mb-0">
-                <label for="dobWithTitle" class="form-label">DOB</label>
-                <input type="date" id="dobWithTitle" class="form-control" />
-              </div>
-            </div>
           </div>
-          <div class="modal-footer">
+          <!-- <div class="modal-footer">
             <button type="button" class="btn btn-label-secondary" data-bs-dismiss="modal">
               Close
             </button>
             <button type="button" class="btn btn-primary">Save changes</button>
-          </div>
+          </div> -->
         </div>
       </div>
     </div>

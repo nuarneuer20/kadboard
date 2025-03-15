@@ -15,6 +15,12 @@ class Main_model extends CI_Model
     return $query->result();
   }
 
+  function check_file($id){
+    $this->db->where('InvitationId',$id);
+    $query = $this->db->get('invitation');
+    return $query->row();
+  }
+
   function get_invitation_bride($id){
     $this->db->where_in('InvitationId',$id);
     $query = $this->db->get('bride');

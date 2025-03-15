@@ -94,3 +94,5 @@ $route['preview-comment'] = 'preview/comment';
 $route['preview-load'] = 'preview/load';
 $route['preview-rsvp'] = 'preview/rsvp';
 $route['preview-attend'] = 'preview/attend';
+
+//ADMIN ROUTE

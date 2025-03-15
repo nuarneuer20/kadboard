@@ -28,8 +28,22 @@ class View extends CI_Controller {
     $data['parent']      = $this->View_model->get_parent($id);
     $data['rsvp']        = $this->View_model->get_rsvp($id);
     $data['contact']     = $this->View_model->get_contact($id);
-		$data['DesignUrl']   = $data['details']->DesignUrl;
-		$data['DesignColor'] = $data['details']->DesignColor;
+		if ($data['details']->HideCustom == 0) {
+			if ($data['details']->OpeningBackground != '') {
+				$data['DesignUrl']   = $data['details']->OpeningBackground;
+			}else {
+				$data['DesignUrl']   = $data['details']->DesignUrl;
+			}
+			if ($data['details']->MainBackground != '') {
+				$data['DesignUrlMain']   = $data['details']->MainBackground;
+			}else {
+				$data['DesignUrlMain']   = $data['details']->DesignUrl;
+			}
+		}else {
+			$data['DesignUrl']   = $data['details']->DesignUrl;
+			$data['DesignUrlMain']   = $data['details']->DesignUrl;
+		}
+		// $data['DesignColor'] = $data['details']->DesignColor;
 
 		if ($data['details']->InvitationTypeId == 1) {
 			$data['WeddingTitle'] = $data['details']->EventType.' ';

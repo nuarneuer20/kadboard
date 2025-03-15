@@ -43,10 +43,79 @@
 
               <form id="modify-form" action="<?php echo base_url(); ?>save-invitation" method="post">
 
+                <?php if ($details->PackageId == 3): ?>
                 <div class="row mb-4">
                   <div class="col-md-6 col-12 mx-auto">
                     <div class="card mb-2">
                       <div class="card-body text-center">
+                        <div class="divider text-start">
+                          <div class="divider-text">Background Settings</div>
+                        </div>
+                        <div class="mb-1">
+                          <label for="formFile" class="form-label">Opening Background</label>
+                          <input class="form-control" type="file" name="OpeningBackground">
+                        </div>
+                        <?php if ($details->OpeningBackground != ''): ?>
+                          <div class="mb-2">
+                            <img class="card-img card-img-left" style="object-fit: cover;object-position: center center;box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);  background-position: top; border-radius: 5px;" src="<?php echo base_url().$details->OpeningBackground; ?>" alt="Card image" height="230px">
+                          </div>
+                        <?php endif; ?>
+                        <div class="mb-4">
+                          <small>
+                            <i>* You can upload background image with or without details</i>
+                          </small>
+                        </div>
+                        <div class="mb-1">
+                          <label for="formFile" class="form-label">Main Background</label>
+                          <input class="form-control" type="file" name="MainBackground">
+                        </div>
+                        <?php if ($details->MainBackground != ''): ?>
+                          <div class="mb-2">
+                            <img class="card-img card-img-left" style="object-fit: cover;object-position: center center;box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);  background-position: top; border-radius: 5px;" src="<?php echo base_url().$details->MainBackground; ?>" alt="Card image" height="230px">
+                          </div>
+                        <?php endif; ?>
+                        <div class="mb-2 text-start">
+                          <label class="switch switch-success">
+                            <input type="checkbox" class="switch-input" <?php if ($details->HideCustom == '1') { echo "checked"; } ?> name="HideCustom">
+                            <span class="switch-toggle-slider">
+                              <span class="switch-on">
+                                <i class="ti ti-check"></i>
+                              </span>
+                              <span class="switch-off">
+                                <i class="ti ti-x"></i>
+                              </span>
+                            </span>
+                            <span class="switch-label">Hide custom background</span>
+                          </label>
+                        </div>
+                        <div class="mb-2 text-start">
+                          <label class="switch switch-success">
+                            <input type="checkbox" class="switch-input" <?php if ($details->HideDetails == '1') { echo "checked"; } ?> name="HideDetails">
+                            <span class="switch-toggle-slider">
+                              <span class="switch-on">
+                                <i class="ti ti-check"></i>
+                              </span>
+                              <span class="switch-off">
+                                <i class="ti ti-x"></i>
+                              </span>
+                            </span>
+                            <span class="switch-label">Hide details in background</span>
+                          </label>
+                        </div>
+                        <div class="divider text-start">
+                          <div class="divider-text">Background Settings</div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <?php endif; ?>
+
+                <div class="row mb-4">
+                  <div class="col-md-6 col-12 mx-auto">
+                    <div class="card mb-2">
+                      <div class="card-body text-center">
+
                         <div class="mb-4">
                           <!-- <h5 class="mb-0">WALIMATULURUS</h5> -->
                           <label class="form-label">Select Event Type *</label>
@@ -410,7 +479,7 @@ Rakan-rakan:
                             <span class="switch-label">Speech (Ucapan)</span>
                           </label>
                         </div>
-                        <div class="mb-2">
+                        <div class="mb-4">
                           <label class="switch switch-success">
                             <input type="checkbox" class="switch-input" <?php if ($details->ShowSnow == '1') { echo "checked"; } ?> name="ShowSnow">
                             <span class="switch-toggle-slider">
@@ -423,6 +492,18 @@ Rakan-rakan:
                             </span>
                             <span class="switch-label">Snow Drop Effect</span>
                           </label>
+                        </div>
+                        <div class="mb-2">
+                          <label for="defaultFormControlInput" class="form-label">Opening Word Color</label>
+                          <input type="color" class="form-control" name="OpeningColor" value="<?php echo $details->OpeningColor? $details->OpeningColor:$details->TitleColor; ?>">
+                        </div>
+                        <div class="mb-2">
+                          <label for="defaultFormControlInput" class="form-label">Main Word Color</label>
+                          <input type="color" class="form-control" name="MainColor" value="<?php echo $details->MainColor? $details->MainColor:$details->TitleColor; ?>">
+                        </div>
+                        <div class="mb-2">
+                          <label for="defaultFormControlInput" class="form-label">Snow Drop Color</label>
+                          <input type="color" class="form-control" name="SnowColor" value="<?php echo $details->SnowColor? $details->SnowColor:$details->DesignColor; ?>">
                         </div>
                       </div>
                     </div>
@@ -469,27 +550,66 @@ Rakan-rakan:
     $('#EventType').val("<?php echo $details->EventType; ?>").change();
     $('#WeddingDate').val("<?php echo $details->WeddingDay; ?>").change();
 
+    // $("#modify-form").unbind('submit').bind('submit', function() {
+    //   var form = $(this);
+    //   $.ajax({
+    //     url: form.attr('action'),
+    //     type: form.attr('method'),
+    //     data: form.serialize(),
+    //     dataType: 'json',
+    //     success:function(data)
+    //     {
+    //       $('.txt_csrfname').val(data.token);
+    //       if (data.status == true)
+    //       {
+    //         // window.location.href = "<?php echo base_url()."main"; ?>";
+    //         notification('black','slideTopRight','Message',data.message,10000);
+    //       }else{
+    //         notification('black','slideTopRight','Message',data.message,10000);
+    //       }
+    //     },
+    //     error: function(xhr, status, error) {
+    //       notification('black','slideTopRight','Message','Something went wrong. Please try again later.',10000);
+    //     },
+    //   });
+    //   return false;
+    // });
+
     $("#modify-form").unbind('submit').bind('submit', function() {
-      var form = $(this);
+
+      var form     = $(this);
+      var formUp   = $(this)[0];
+      var dataForm = new FormData(formUp);
+
       $.ajax({
-        url: form.attr('action'),
-        type: form.attr('method'),
-        data: form.serialize(),
-        dataType: 'json',
-        success:function(data)
-        {
-          $('.txt_csrfname').val(data.token);
-          if (data.status == true)
+          contentType: 'multipart/form-data',
+          url: form.attr('action'),
+          type: form.attr('method'),
+          data: dataForm,
+          dataType: 'json',
+          contentType: false,
+          processData: false,
+          async:true,
+          success:function(data)
           {
-            // window.location.href = "<?php echo base_url()."main"; ?>";
-            notification('black','slideTopRight','Message',data.message,10000);
-          }else{
-            notification('black','slideTopRight','Message',data.message,10000);
-          }
-        },
-        error: function(xhr, status, error) {
-          notification('black','slideTopRight','Message','Something went wrong. Please try again later.',10000);
-        },
+            $('.txt_csrfname').val(data.token);
+            if (data.status == true)
+            {
+              // window.location.href = "<?php echo base_url()."main"; ?>";
+              notification('black','slideTopRight','Message',data.message,10000);
+              setTimeout(
+                function()
+                {
+                  window.location.reload();
+                }, 1000
+              );
+            }else{
+              notification('black','slideTopRight','Message',data.message,10000);
+            }
+          },
+          error: function(xhr, status, error) {
+            notification('black','slideTopRight','Message','Something went wrong. Please try again later.',10000);
+          },
       });
       return false;
     });
